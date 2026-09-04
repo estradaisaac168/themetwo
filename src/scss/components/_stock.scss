@@ -1,0 +1,58 @@
+// =============================================================================
+// COMPONENT: Stock Status Indicator (Bootstrap adaptado a estilo M3)
+// =============================================================================
+
+.stock {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  
+  // Estética M3: Tipografía compacta (equivalente a 12px / small en Bootstrap)
+  font-size: 0.75rem; 
+  font-weight: 500;
+  letter-spacing: 0.025em;
+  
+  // Forma de píldora característica de M3
+  padding: 0.25rem 0.75rem;
+  border-radius: 50rem; // Equivalente a rounded-pill de Bootstrap
+  width: fit-content;
+
+  // Punto indicador visual estilo M3 (más sutil)
+  &::before {
+    content: "";
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+  }
+
+  // 1. En Stock / Disponible (Tonalidad éxito estilo M3)
+  &.in-stock {
+    color: #0d5229;
+    background-color: #d8f3dc;
+
+    &::before {
+      background-color: #2b9348;
+    }
+  }
+
+  // 2. Agotado / Sin Stock (Tonalidad error estilo M3)
+  &.out-of-stock {
+    color: #8b0000;
+    background-color: #fde8e8;
+
+    &::before {
+      background-color: #d90429;
+    }
+  }
+
+  // 3. Disponible para reserva / Backorder (Tonalidad advertencia estilo M3)
+  &.available-on-backorder {
+    color: #7f4f24;
+    background-color: #faedcd;
+
+    &::before {
+      background-color: #b08968;
+    }
+  }
+}

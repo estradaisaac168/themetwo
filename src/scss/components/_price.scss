@@ -1,0 +1,74 @@
+// Componente de Precio Reutilizable (Single Product & Catalog Loop)
+.price {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+	margin-bottom: 1rem;
+	font-weight: 600;
+
+	// Oculta el texto de accesibilidad sin romper el maquetado flex
+	.screen-reader-text {
+		position: absolute !important;
+		width: 1px !important;
+		height: 1px !important;
+		padding: 0 !important;
+		margin: -1px !important;
+		overflow: hidden !important;
+		clip: rect(0, 0, 0, 0) !important;
+		white-space: nowrap !important;
+		border: 0 !important;
+	}
+
+	// Precio sin descuento (Normal)
+	> .woocommerce-Price-amount {
+		color: #2b2b2b;
+		font-size: 1.25rem;
+		font-weight: 700;
+	}
+
+	// Precio anterior / tachado
+	del {
+		color: #8c8c8c;
+		font-size: 0.9em;
+		text-decoration: line-through;
+		opacity: 0.75;
+
+		.woocommerce-Price-amount {
+			color: inherit;
+		}
+	}
+
+	// Precio en oferta / actual
+	ins {
+		color: #d90429; // Cambia por tu color de oferta/acento
+		font-size: 1.25rem;
+		font-weight: 700;
+		text-decoration: none;
+
+		.woocommerce-Price-amount {
+			color: inherit;
+		}
+	}
+
+	// Símbolo de moneda
+	.woocommerce-Price-currencySymbol {
+		margin-right: 0.15em;
+		font-size: 0.85em;
+	}
+}
+
+// Adaptación de tamaños según el contexto
+.single-product .summary .price {
+	ins,
+	> .woocommerce-Price-amount {
+		font-size: 1.5rem;
+	}
+}
+
+.products .product .price {
+	ins,
+	> .woocommerce-Price-amount {
+		font-size: 1.1rem;
+	}
+}

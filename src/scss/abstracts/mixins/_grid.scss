@@ -1,0 +1,42 @@
+/// Mixin profesional de CSS Grid con argumentos opcionales
+/// @author Isaac
+/// @param {List | String} $columns [null] - Opcional: grid-template-columns (ej. repeat(3, 1fr))
+/// @param {List | String} $rows [null] - Opcional: grid-template-rows (ej. auto 1fr)
+/// @param {Length | String} $gap [null] - Opcional: gap general (ej. 1.5rem o 20px)
+/// @param {String} $justify [null] - Opcional: justify-items (ej. center, stretch)
+/// @param {String} $align [null] - Opcional: align-items (ej. center, start)
+/// @param {String} $flow [null] - Opcional: grid-auto-flow (ej. column, row dense)
+@mixin grid(
+  $columns: null, 
+  $rows: null, 
+  $gap: null, 
+  $justify: null, 
+  $align: null,
+  $flow: null
+) {
+  display: grid;
+
+  @if $columns != null {
+    grid-template-columns: $columns;
+  }
+
+  @if $rows != null {
+    grid-template-rows: $rows;
+  }
+
+  @if $gap != null {
+    gap: $gap;
+  }
+
+  @if $justify != null {
+    justify-content: $justify;
+  }
+
+  @if $align != null {
+    align-items: $align;
+  }
+
+  @if $flow != null {
+    grid-auto-flow: $flow;
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "name": "custom-theme",
+  "version": "1.0.0",
+  "devDependencies": {
+    "sass": "^1.70.0"
+  },
+  "scripts": {
+    "watch": "sass --watch src/scss/main.scss:css/main.css --style=expanded",
+    "compile:css": "sass src/scss/main.scss:css/main.css --style=expanded"
+  },
+  "dependencies": {
+    "bootstrap": "^5.3.8"
+  }
+}

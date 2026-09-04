@@ -1,0 +1,120 @@
+nav.nav-main {
+  border: 1px solid rgb(0, 255, 55);
+  position: relative;
+
+  .container {
+    @include flex($direction: column, $align: start, $justify: start);
+
+    .nav-header {
+      border: 1px solid rgb(47, 0, 255);
+      @include flex($align: center, $justify: space-between);
+      width: 100%;
+    }
+  }
+
+  .site-branding {
+    max-width: 100px;
+  }
+
+  .toggle-menu {
+    .button-toggle {
+      background: transparent;
+      border: none;
+      cursor: pointer;
+    }
+  }
+
+  // Estilo Material 3 Navigation Drawer
+  .content-menu {
+    border: 1px solid red;
+    position: fixed; // Fijo a la pantalla para que cubra toda la altura
+    top: 0;
+    left: 0;
+    width: 320px; // Ancho típico de Material 3 (o usa max-width: 80vw)
+    max-width: 80vw;
+    height: 100vh; // Ocupa toda la altura de la pantalla
+    z-index: 1000; // Por encima de todo
+    background-color: #fff; // Color de superficie de Material 3
+    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.15); // Elevación típica M3
+
+    // Animación de deslizamiento lateral (Slide-in)
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(-100%); // Oculto completamente a la izquierda
+    transition:
+      transform 0.3s cubic-bezier(0.2, 0, 0, 1),
+      opacity 0.3s ease,
+      visibility 0.3s ease; // Curva de animación estándar de Material 3
+
+    &.show {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(0); // Desliza hacia su posición natural
+    }
+
+    // Listas y elementos del menú
+
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0; // Padding interno característico de M3
+    }
+
+    .ul-menu {
+      padding: 1.5rem 1rem;
+
+      li {
+        position: relative;
+        border-radius: 28px; // Forma de píldora típica para estados activos en M3
+
+        &.current-menu-item {
+          background-color: #e8def8; // Color "Secondary Container" típico de M3 Material You
+        }
+
+        &.menu-item-has-children {
+          > a::after {
+            content: "\F229";
+            font-family: "bootstrap-icons";
+            font-size: 0.8rem;
+            margin-left: 8px;
+            display: inline-block;
+            transition: transform 0.3s ease;
+          }
+
+          &.open > a::after {
+            transform: rotate(180deg);
+          }
+
+          &.open {
+            > .sub-menu {
+              opacity: 1;
+              visibility: visible;
+              max-height: 500px; // O despliegue fluido
+            }
+          }
+
+          // En móviles bajo M3, los submenús suelen expandirse hacia abajo dentro del mismo drawer (tipo acordeón) en lugar de flotar a un lado
+          .sub-menu {
+            border: none;
+            position: static; // Se queda en el flujo normal dentro del drawer
+            width: 100%;
+            background-color: transparent;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-in-out;
+            padding-left: 1rem;
+          }
+        }
+      }
+    }
+
+    .button-close {
+      background: transparent;
+      border: none;
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      cursor: pointer;
+    }
+  }
+}

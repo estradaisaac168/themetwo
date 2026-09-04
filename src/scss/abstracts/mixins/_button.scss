@@ -1,0 +1,210 @@
+
+
+
+
+// /// Mixin profesional para botones basado en la estructura de Bootstrap 5.3
+// /// @author Isaac
+// /// @param {Color} $bg [null] - Color de fondo del botón
+// /// @param {Color} $color [null] - Color del texto
+// /// @param {Color} $border [null] - Color del borde (por defecto toma el fondo si no se especifica)
+// /// @param {String} $size [md] - Tamaño del botón ('sm', 'md', 'lg')
+// /// @param {Boolean} $outline [false] - Si es true, genera un botón estilo outline
+// @mixin custom-button(
+//   $bg: null, 
+//   $color: null, 
+//   $border: null, 
+//   $size: md, 
+//   $outline: false
+// ) {
+//   // 1. Estilos base idénticos al .btn de Bootstrap 5.3
+//   display: inline-block;
+//   font-weight: var(--bs-btn-font-weight, 400);
+//   line-height: var(--bs-btn-line-height, 1.5);
+//   color: var(--bs-btn-color, #212529);
+//   text-align: center;
+//   text-decoration: none;
+//   vertical-align: middle;
+//   cursor: pointer;
+//   user-select: none;
+//   border: var(--bs-btn-border-width, 1px) solid transparent;
+//   padding: var(--bs-btn-padding-y) var(--bs-btn-padding-x);
+//   font-size: var(--bs-btn-font-size, 1rem);
+//   border-radius: var(--bs-btn-border-radius, 0.375rem);
+//   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, 
+//               border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+
+//   // 2. Control de tamaños inspirado en las variables de Bootstrap ($btn-padding-y-sm, etc.)
+//   @if $size == sm {
+//     --bs-btn-padding-y: 0.25rem;
+//     --bs-btn-padding-x: 0.5rem;
+//     --bs-btn-font-size: 0.875rem;
+//     --bs-btn-border-radius: 0.25rem;
+//   } @else if $size == lg {
+//     --bs-btn-padding-y: 0.5rem;
+//     --bs-btn-padding-x: 1rem;
+//     --bs-btn-font-size: 1.25rem;
+//     --bs-btn-border-radius: 0.5rem;
+//   } @else { // Tamaño md (por defecto)
+//     --bs-btn-padding-y: 0.375rem;
+//     --bs-btn-padding-x: 0.75rem;
+//     --bs-btn-font-size: 1rem;
+//     --bs-btn-border-radius: 0.375rem;
+//   }
+
+//   // 3. Lógica de colores (Variantes sólidas vs Outline)
+//   @if $bg != null {
+//     @if $outline == true {
+//       // Estilo Outline (ej. .btn-outline-primary)
+//       color: $bg;
+//       border-color: if($border != null, $border, $bg);
+//       background-color: transparent;
+
+//       &:hover {
+//         color: if($color != null, $color, #fff);
+//         background-color: $bg;
+//         border-color: if($border != null, $border, $bg);
+//       }
+//     } @else {
+//       // Estilo Sólido (ej. .btn-primary)
+//       background-color: $bg;
+//       color: if($color != null, $color, #fff);
+//       border-color: if($border != null, $border, $bg);
+
+//       &:hover {
+//         // Truco profesional: oscurecemos ligeramente el color en hover usando funciones nativas de Sass
+//         background-color: scale-color($bg, $lightness: -10%);
+//         border-color: scale-color($bg, $lightness: -12%);
+//         color: if($color != null, $color, #fff);
+//       }
+//     }
+//   }
+
+//   // Focus global estándar de Bootstrap accesible
+//   &:focus-visible {
+//     outline: 0;
+//     box-shadow: 0 0 0 0.25rem rgba(var(--bs-focus-ring-rgb, 13, 110, 253), 0.25);
+//   }
+// }
+
+
+
+/// Mixin profesional para botones basado en Bootstrap 5.3 con soporte opcional para Material Design 3
+/// @author Isaac
+/// @param {Color} $bg [null] - Color de fondo del botón
+/// @param {Color} $color [null] - Color del texto
+/// @param {Color} $border [null] - Color del borde (por defecto toma el fondo si no se especifica)
+/// @param {String} $size [md] - Tamaño del botón ('sm', 'md', 'lg')
+/// @param {Boolean} $outline [false] - Si es true, genera un botón estilo outline
+/// @param {Boolean} $material [false] - Si es true, aplica la estética visual de Material Design 3
+@mixin custom-button(
+  $bg: null, 
+  $color: null, 
+  $border: null, 
+  $size: md, 
+  $outline: false,
+  $material: false,
+  $pill: false // <--- Nuevo parámetro para controlar la forma de píldora de forma independiente
+) {
+  // 1. Estilos base idénticos al .btn de Bootstrap 5.3
+  display: inline-block;
+  font-weight: var(--bs-btn-font-weight, 500);
+  line-height: var(--bs-btn-line-height, 1.5);
+  color: var(--bs-btn-color, #212529);
+  text-align: center;
+  text-decoration: none;
+  vertical-align: middle;
+  cursor: pointer;
+  user-select: none;
+  border: var(--bs-btn-border-width, 1px) solid transparent;
+  padding: var(--bs-btn-padding-y) var(--bs-btn-padding-x);
+  font-size: var(--bs-btn-font-size, 1rem);
+
+  transition: background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1), 
+              border-color 0.2s cubic-bezier(0.4, 0, 0.2, 1), 
+              box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+  // 2. Control de tamaños optimizado
+  @if $size == sm {
+    --bs-btn-padding-y: 0.3rem;
+    --bs-btn-padding-x: 0.75rem;
+    --bs-btn-font-size: 0.8125rem;
+  } @else if $size == lg {
+    --bs-btn-padding-y: 0.75rem;
+    --bs-btn-padding-x: 1.5rem;
+    --bs-btn-font-size: 1.125rem;
+  } @else { // Tamaño md (por defecto)
+    --bs-btn-padding-y: 0.5rem;
+    --bs-btn-padding-x: 1.25rem;
+    --bs-btn-font-size: 0.9375rem;
+  }
+
+  // 3. Lógica de colores (Variantes sólidas vs Outline)
+  @if $bg != null {
+    @if $outline == true {
+      color: $bg;
+      border-color: if($border != null, $border, $bg);
+      background-color: transparent;
+
+      &:hover {
+        color: if($color != null, $color, #fff);
+        background-color: $bg;
+        border-color: if($border != null, $border, $bg);
+        @if $material == true {
+          box-shadow: 0 1px 3px 1px rgba(0, 0, 0, 0.15);
+        }
+      }
+    } @else {
+      background-color: $bg;
+      color: if($color != null, $color, #fff);
+      border-color: if($border != null, $border, $bg);
+      
+      @if $material == true {
+        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.3), 0 1px 3px 1px rgba(0, 0, 0, 0.15);
+      }
+
+      &:hover {
+        background-color: scale-color($bg, $lightness: -10%);
+        border-color: scale-color($bg, $lightness: -12%);
+        color: if($color != null, $color, #fff);
+        
+        @if $material == true {
+          box-shadow: 0 2px 6px 2px rgba(0, 0, 0, 0.2), 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+        }
+      }
+    }
+  }
+
+  // 4. Estado Deshabilitado (Disabled) optimizado para M3
+  &:disabled,
+  &.disabled {
+    cursor: not-allowed;
+    @if $material == true {
+      background-color: rgba(var(--bs-body-color-rgb, 33, 37, 41), 0.12) !important;
+      color: rgba(var(--bs-body-color-rgb, 33, 37, 41), 0.38) !important;
+      border-color: transparent !important;
+      box-shadow: none !important;
+    } @else {
+      opacity: 0.65;
+      box-shadow: none;
+    }
+  }
+
+  // 5. Control estricto de la forma (Border Radius)
+  @if $pill == true {
+    border-radius: 100vw !important; // Píldora total solo si se pide explícitamente
+  } @else if $material == true {
+    border-radius: var(--bs-btn-border-radius, 0.5rem); // Esquinas redondeadas modernas y sutiles propias de M3 (sin exagerar)
+  } @else {
+    border-radius: var(--bs-btn-border-radius, 0.375rem); // Estándar de Bootstrap
+  }
+
+  // Focus adaptado a accesibilidad
+  &:focus-visible {
+    outline: 0;
+    @if $material == true {
+      box-shadow: 0 0 0 3px rgba(var(--bs-focus-ring-rgb, 103, 80, 164), 0.35);
+    } @else {
+      box-shadow: 0 0 0 0.25rem rgba(var(--bs-focus-ring-rgb, 13, 110, 253), 0.25);
+    }
+  }
+}

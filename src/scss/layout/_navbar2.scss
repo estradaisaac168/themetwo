@@ -1,0 +1,842 @@
+// @use "sass:color";
+
+// // =============================================================================
+// // COMPONENT: Main Navigation (Bootstrap adaptado a Material Design 3)
+// // =============================================================================
+
+// .nav-main {
+//   // M3: Uso de superficies tonales de contenedores en lugar de colores planos masivos
+//   background-color: var(--md-sys-color-surface-container, color.adjust($primary, $lightness: 45%));
+//   color: var(--md-sys-color-on-surface, #1d1b20);
+//   position: relative;
+//   box-shadow: var(--md-sys-elevation-1, 0 1px 3px rgba(0, 0, 0, 0.1));
+
+//   .container {
+//     display: flex;
+//     flex-direction: row;
+//     align-items: center;
+//     height: auto;
+
+//     @include media-breakpoint-up(lg) {
+//       justify-content: center;
+//     }
+
+//     .site-branding {
+//       margin-block: 0.7rem;
+//       width: 160px;
+      
+//       .site-title {
+//         margin: 0;
+//         font-family: var(--md-sys-typescale-title-medium-font, inherit);
+//       }
+
+//       @include media-breakpoint-up(lg) {
+//         display: none;
+//       }
+//     }
+
+//     ul {
+//       list-style: none;
+//       margin: 0;
+//       padding: 1rem;
+//       display: flex;
+//       flex-direction: column;
+//       background-color: var(--md-sys-color-surface-container-high, #f7f2fa);
+//       box-sizing: border-box;
+
+//       @include media-breakpoint-up(lg) {
+//         flex-direction: row;
+//         background-color: transparent;
+//         padding: 0.5rem;
+//         gap: 0.5rem; // M3 prefiere espacios limpios con gap en lugar de márgenes forzados
+//       }
+
+//       li {
+//         text-align: start;
+//         padding: 0.15rem 0;
+//         width: 100%;
+
+//         @include media-breakpoint-up(lg) {
+//           width: auto;
+//         }
+
+//         a {
+//           // M3: Tipografía de etiqueta de navegación (Label Large)
+//           font-family: var(--md-sys-typescale-label-large-font, inherit);
+//           font-size: 0.875rem;
+//           font-weight: 500;
+//           letter-spacing: 0.1px;
+//           color: var(--md-sys-color-on-surface-variant, #49454f);
+//           text-transform: none; // M3 evita el uppercase forzado en menús modernos, usa capitalización natural
+//           text-decoration: none;
+//           display: flex;
+//           align-items: center;
+//           padding: 0.75rem 1rem;
+          
+//           // M3: Elementos de navegación en forma de píldora (pill shape)
+//           border-radius: var(--md-sys-shape-corner-full, 9999px);
+//           transition: background-color 0.2s ease, color 0.2s ease;
+
+//           &.current-menu-item {
+//             background-color: var(--md-sys-color-secondary-container, #e8def8);
+//             color: var(--md-sys-color-on-secondary-container, #1d192b);
+//             font-weight: 600;
+//           }
+
+//           &:hover {
+//             background-color: var(--md-sys-color-surface-variant, #e7e0ec);
+//             color: var(--md-sys-color-on-surface, #1d1b20);
+//           }
+//         }
+//       }
+//     }
+
+//     .toggle-menu {
+//       display: flex;
+//       justify-content: end;
+//       width: 100%;
+//       z-index: 1000;
+
+//       i {
+//         cursor: pointer;
+//         font-size: 2rem;
+//         color: var(--md-sys-color-on-surface, #1d1b20);
+//       }
+
+//       @include media-breakpoint-up(lg) {
+//         display: none;
+//       }
+//     }
+
+//     .content-menu {
+//       position: fixed;
+//       left: 0;
+//       top: 0;
+//       bottom: 0;
+//       // M3: Drawer lateral de navegación móvil (Navigation Drawer)
+//       background-color: var(--md-sys-color-surface-container-low, #fcf8f8);
+//       color: var(--md-sys-color-on-surface, #1d1b20);
+//       transition: transform 0.3s cubic-bezier(0.2, 0, 0, 1); // Curva de animación estándar de M3
+//       z-index: 1000;
+//       width: 80%;
+//       box-shadow: var(--md-sys-elevation-3, 0 4px 8px rgba(0, 0, 0, 0.15));
+
+//       @include media-breakpoint-up(sm) {
+//         width: 70%;
+//       }
+
+//       min-height: 100%;
+//       overflow-y: auto;
+//       transform: translateX(-100%);
+//       will-change: transform;
+//       backface-visibility: hidden;
+
+//       @include media-breakpoint-up(lg) {
+//         position: relative;
+//         height: auto;
+//         overflow-y: unset;
+//         transform: translateX(0);
+//         background-color: transparent;
+//         box-shadow: none;
+//         width: auto;
+//       }
+
+//       .ul-menu {
+//         justify-content: center;
+//         margin-top: 1.5rem;
+
+//         @include media-breakpoint-up(lg) {
+//           margin-top: 0;
+//         }
+
+//         .menu-item-has-children {
+//           position: relative;
+
+//           > a::after {
+//             content: "\F229";
+//             font-family: "bootstrap-icons";
+//             font-size: 0.75rem;
+//             margin-left: auto; // Empuja la flecha hacia el extremo derecho en móvil para mejor UX
+//             display: inline-block;
+//             transition: transform 0.2s ease;
+//           }
+
+//           &.open > a::after {
+//             transform: rotate(180deg);
+//           }
+
+//           ul.sub-menu {
+//             color: var(--md-sys-color-on-surface, #1d1b20);
+//             margin-left: 1rem;
+//             padding: 0;
+//             display: flex;
+//             flex-direction: column;
+//             background-color: transparent;
+
+//             max-height: 0;
+//             opacity: 0;
+//             visibility: hidden;
+//             overflow: hidden;
+//             transition: max-height 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
+
+//             @include media-breakpoint-up(lg) {
+//               position: absolute;
+//               top: 3.5rem;
+//               left: 0;
+//               // M3: Menú desplegable flotante con esquinas redondeadas tipo tarjeta (Card shape)
+//               background-color: var(--md-sys-color-surface-container, #f3edf7);
+//               border-radius: var(--md-sys-shape-corner-medium, 12px);
+//               box-shadow: var(--md-sys-elevation-2, 0 2px 6px rgba(0, 0, 0, 0.12));
+//               padding: 0.5rem;
+//               min-width: 200px;
+//               margin-left: 0;
+//             }
+
+//             &.show-sub-menu {
+//               max-height: 500px;
+//               opacity: 1;
+//               visibility: visible;
+//             }
+
+//             li a {
+//               padding: 0.5rem 1rem;
+//               border-radius: var(--md-sys-shape-corner-small, 8px);
+              
+//               &:hover {
+//                 background-color: var(--md-sys-color-surface-variant, #e7e0ec);
+//               }
+//             }
+//           }
+//         }
+//       }
+
+//       .button-close {
+//         position: absolute;
+//         right: 0;
+//         top: 0;
+//         margin: 1rem;
+
+//         i {
+//           cursor: pointer;
+//           font-size: 1.5rem;
+//           color: var(--md-sys-color-on-surface-variant, #49454f);
+//         }
+
+//         @include media-breakpoint-up(lg) {
+//           display: none;
+//         }
+//       }
+
+//       &.show {
+//         transform: translateX(0);
+//         opacity: 1;
+//         visibility: visible;
+//         pointer-events: auto;
+//       }
+//     }
+//   }
+// }
+
+
+
+
+
+@use "sass:color";
+.nav-main {
+  background-color: $primary;
+  position: relative;
+
+  .container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: auto;
+    // justify-content: end;
+    // flex-wrap: wrap;
+
+    @include media-breakpoint-up(lg) {
+      justify-content: center;
+    }
+
+    .site-branding {
+      margin-block: 0.7rem;
+      width: 160px;
+      .site-title {
+        margin: 0;
+      }
+
+      @include media-breakpoint-up(lg) {
+        display: none;
+      }
+    }
+
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0.7rem;
+      display: flex;
+      flex-direction: column;
+      background-color: $primary;
+      box-sizing: border-box;
+
+      @include media-breakpoint-up(lg) {
+        flex-direction: row;
+      }
+
+      li {
+        text-align: start;
+        padding: 0.3rem 0;
+        width: 100%;
+
+        @include media-breakpoint-up(lg) {
+          width: auto;
+        }
+        a {
+          color: var(--bs-white);
+          text-transform: uppercase;
+          text-decoration: none;
+          display: block;
+          padding: 0.5rem;
+          border-radius: 0.5rem;
+
+          &.current-menu-item {
+            background-color: color.adjust($primary, $lightness: -5%);
+          }
+
+          &:hover {
+            background-color: color.adjust($primary, $lightness: -5%);
+          }
+        }
+      }
+    }
+
+    .toggle-menu {
+      display: flex;
+      justify-content: end;
+      width: 100%;
+      z-index: 1000;
+      // margin: 0.7rem;
+
+      i {
+        cursor: pointer;
+        font-size: 2.5rem;
+      }
+
+      @include media-breakpoint-up(lg) {
+        display: none;
+      }
+    }
+
+    .content-menu {
+      position: fixed;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      background-color: $primary;
+      transition: transform 0.5s ease;
+      z-index: 1000;
+      width: 80%;
+
+      @include media-breakpoint-up(sm) {
+        width: 70%;
+      }
+
+      min-height: 100%;
+      // height: 100dvh;
+      overflow-y: auto;
+      transform: translateX(-100%);
+      will-change: transform;
+      backface-visibility: hidden;
+
+      @include media-breakpoint-up(lg) {
+        position: relative;
+        height: auto;
+        overflow-y: unset;
+        transform: translatex(0);
+      }
+
+      .ul-menu {
+        // flex-grow: 1;
+        justify-content: center;
+        margin-top: 1.5rem;
+
+        @include media-breakpoint-up(lg) {
+          margin-top: 0;
+        }
+
+        .menu-item-has-children {
+          position: relative;
+          // display: flex;
+          // flex-direction: column;
+
+          > a::after {
+            content: "\F229"; /* Código Unicode para bi-chevron-down en Bootstrap Icons */
+            font-family: "bootstrap-icons";
+            font-size: 0.8rem;
+            margin-left: 8px;
+            display: inline-block;
+            transition: transform 0.3s ease;
+          }
+
+          &.open > a::after {
+            transform: rotate(180deg);
+          }
+
+          ul.sub-menu {
+            // background-color: $cyan-200;
+            color: black;
+            margin-left: 0.5rem;
+            height: auto;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+
+            /* Propiedades para la transición suave */
+            max-height: 0;
+            opacity: 0;
+            visibility: hidden;
+            overflow: hidden;
+            transition:
+              max-height 0.3s ease,
+              opacity 0.3s ease,
+              visibility 0.3s ease;
+
+            @include media-breakpoint-up(lg) {
+              position: absolute;
+              top: 3rem;
+              left: 1rem;
+            }
+
+            &.show-sub-menu {
+              max-height: 500px;
+              opacity: 1;
+              visibility: visible;
+            }
+          }
+        }
+      }
+
+      .button-close {
+        position: absolute;
+        right: 0;
+        top: 0;
+        margin: 1rem;
+
+        i {
+          cursor: pointer;
+        }
+
+        @include media-breakpoint-up(lg) {
+          display: none;
+        }
+      }
+
+      &.show {
+        transform: translatex(0);
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+      }
+    }
+  }
+}
+
+// .nav-main {
+//   background-color: $cyan-800;
+//   position: relative;
+
+//   .container {
+//     display: flex;
+//     justify-content: end;
+//     flex-wrap: wrap;
+
+//     @include media-breakpoint-up(lg) {
+//       justify-content: center;
+//     }
+
+//     ul {
+//       list-style: none;
+//       margin: 0;
+//       padding-left: 0;
+
+//       li {
+//         padding: 0.75rem;
+//         min-width: auto;
+//         text-align: start;
+//         a {
+//           color: var(--bs-dark);
+//           text-transform: uppercase;
+//           text-decoration: none;
+//           // min-width: 100%;
+//           display: block;
+//         }
+//       }
+//     }
+//     .toggle-menu {
+//       display: flex;
+//       justify-content: end;
+//       width: 100%;
+//       z-index: 1000;
+//       margin: 1rem;
+
+//       i {
+//         cursor: pointer;
+//       }
+
+//       @include media-breakpoint-up(lg) {
+//         display: none;
+//       }
+//     }
+
+//     .content-menu {
+//       position: absolute;
+//       left: 0;
+//       top: 0;
+//       display: flex;
+//       // transform: translateX(-250%);
+//       transition: transform 0.5s ease;
+//       min-height: 100%;
+//       background-color: $cyan-600;
+//       padding: 1rem;
+//       z-index: 1000;
+//       width: 80%;
+
+//       @include media-breakpoint-up(lg) {
+//         position: relative;
+//         transform: translatex(0);
+//       }
+
+//       .ul-menu {
+//         flex-grow: 1;
+//         justify-content: center;
+//         li.menu-item {
+//         }
+
+//         .menu-item-has-children {
+//           position: relative;
+//           display: flex;
+//           flex-direction: column;
+//           > a::after {
+//             content: "\F229"; /* Código Unicode para bi-chevron-down en Bootstrap Icons */
+//             font-family: "bootstrap-icons";
+//             font-size: 0.8rem;
+//             margin-left: 8px;
+//             display: inline-block;
+//             transition: transform 0.3s ease;
+//           }
+
+//           &.open > a::after {
+//             transform: rotate(180deg);
+//           }
+
+//           ul.sub-menu {
+//             background-color: $cyan-200;
+//             color: black;
+//             margin-left: 0.5rem;
+//             display: none;
+
+//             @include media-breakpoint-up(lg) {
+//               position: absolute;
+//               top: 3rem;
+//               left: 1rem;
+//               // bottom: -5rem;
+//               // margin-left: 0.5rem;
+//             }
+
+//             &.show-sub-menu {
+//               display: block;
+//             }
+//           }
+//         }
+//       }
+
+//       .button-close {
+//         i {
+//           cursor: pointer;
+//         }
+//         @include media-breakpoint-up(lg) {
+//           display: none;
+//         }
+//       }
+
+//       &.show {
+//         transform: translatex(0);
+//         opacity: 1;
+//         visibility: visible;
+//         pointer-events: auto;
+//       }
+//     }
+//   }
+// }
+
+// .main-nav {
+//   position: relative;
+//   background-color: $cyan-600; // Esta es la barra que siempre se ve en móvil
+//   min-height: 60px; // O el alto que prefieras para que luzca como barra con el icono
+
+//   .container {
+//     position: relative; // Vital para posicionar el menú absoluto respecto a este contenedor
+//     display: flex;
+//     align-items: center;
+//     justify-content: space-between;
+//     height: 100%;
+//   }
+
+//   .toggle-menu {
+//     // Quitamos position absolute para que flexbox lo alinee perfectamente dentro de la barra
+//     cursor: pointer;
+//     width: 40px;
+//     z-index: 1000;
+//     margin: 0.75rem 1rem; // Espaciado interno para que la barra tenga presencia
+//     margin-left: auto; // Lo manda a la derecha si usas flex
+
+//     @include media-breakpoint-up(lg) {
+//       display: none;
+//     }
+//   }
+
+//   // El menú móvil se vuelve flotante/absoluto para no dejar espacios vacíos
+//   ul.main-menu {
+//     background-color: $cyan-200;
+//     list-style: none;
+//     margin: 0;
+//     padding-left: 0;
+
+//     // Posicionamiento absoluto justo debajo de la barra móvil
+//     position: absolute;
+//     top: 100%; // Se pega exactamente al borde inferior de .main-nav
+//     left: 0;
+//     width: 100%;
+//     z-index: 999;
+
+//     // Efecto de ocultar con translateY pero sin dejar espacio atrás porque es absolute
+//     display: flex;
+//     flex-direction: column;
+//     align-items: center;
+//     transition: transform 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
+//     transform: translateY(-100%);
+//     opacity: 0;
+//     visibility: hidden;
+//     pointer-events: none; // Evita clicks accidentales cuando está oculto
+
+//     // Cuando se abre con la clase .show
+//     &.show {
+//       transform: translateY(0);
+//       opacity: 1;
+//       visibility: visible;
+//       pointer-events: auto;
+//     }
+
+//     li.menu-item {
+//       padding: 0.75rem;
+//       width: 100%;
+//       text-align: center;
+
+//       a {
+//         color: var(--bs-dark); // Texto oscuro ya que el fondo es $cyan-200 (claro)
+//         text-transform: uppercase;
+//         text-decoration: none;
+//         display: block;
+//       }
+//     }
+
+//     // Estilos para Desktop (Pantallas grandes)
+//     @include media-breakpoint-up(lg) {
+//       position: static; // Regresa al flujo normal en desktop
+//       transform: none !important;
+//       opacity: 1;
+//       visibility: visible;
+//       pointer-events: auto;
+//       flex-direction: row;
+//       justify-content: center;
+//       background-color: transparent; // O el color que desees para desktop
+//       width: auto;
+
+//       li.menu-item {
+//         width: auto;
+//         a {
+//           color: var(--bs-white); // Texto blanco para desktop si el fondo es oscuro
+//         }
+//       }
+//     }
+//   }
+// }
+
+// .main-nav.show{
+//   display: block;
+// }
+
+// 	/* ========================================
+// 	   BOTÓN MENÚ MÓVIL
+// 	======================================== */
+
+// 	.menu-toggle {
+// 		display: flex;
+
+// 		@include media-breakpoint-up(lg) {
+// 			display: none;
+// 		}
+// 	}
+
+// 	/* ========================================
+// 	   MENÚ PRINCIPAL
+// 	======================================== */
+
+// 	> ul.nav-menu {
+// 		display: none;
+// 		flex-direction: column;
+
+// 		@include media-breakpoint-up(lg) {
+// 			display: flex;
+// 			flex-direction: row;
+// 		}
+// 	}
+
+// 	/* Menú abierto en móvil */
+
+// 	&.toggled > ul.nav-menu {
+// 		display: flex;
+// 	}
+
+// 	/* ========================================
+// 	   ITEMS CON SUBMENÚ
+// 	======================================== */
+
+// 	li.menu-item-has-children,
+// 	li.page_item_has_children {
+// 		position: relative;
+
+// 		/* Submenú cerrado por defecto */
+
+// 		> .sub-menu {
+// 			display: none;
+// 			flex-direction: column;
+// 			margin-left: 1rem;
+// 		}
+
+// 		/* Submenú abierto en móvil */
+
+// 		&.open > .sub-menu {
+// 			display: flex;
+// 		}
+
+// 		/* ========================================
+// 		   DESKTOP
+// 		======================================== */
+
+// 		@include media-breakpoint-up(lg) {
+
+// 			> .sub-menu {
+// 				position: absolute;
+// 				top: 100%;
+// 				left: 0;
+
+// 				display: none;
+// 				margin-left: 0;
+
+// 				z-index: 1000;
+// 			}
+
+// 			/* Mostrar con hover */
+
+// 			&:hover > .sub-menu,
+
+// 			/* Mostrar con teclado */
+
+// 			&:focus-within > .sub-menu {
+// 				display: flex;
+// 			}
+// 		}
+// 	}
+// }
+
+// .main-navigation {
+//   display: flex;
+//   width: 100%;
+
+//   //Clear format
+//   ul {
+//     list-style: none;
+//     margin: 0;
+//     padding-left: 0;
+//   }
+
+//   /* Movil menu. */
+//   .menu-toggle {
+//     display: flex;
+
+//     @include media-breakpoint-up(lg) {
+//       display: none;
+//     }
+//   }
+
+//   .main-navigation.toggled ul {
+//     display: flex;
+//     flex-direction: column;
+//   }
+
+//   /* Desktop menu -----> ul.menu.nav-menu */
+//   ul {
+//     display: none;
+
+//     @include media-breakpoint-up(lg) {
+//       display: flex;
+//     }
+//   }
+
+//   ul > li.menu-item-has-children {
+//     @include media-breakpoint-up(lg) {
+//       position: relative;
+//     }
+//     ul.sub-menu {
+//       background: #d16060;
+//       display: none;
+//     }
+//   }
+
+//   ul > li.menu-item-has-children.open {
+//     ul.sub-menu {
+//         margin-left: 1rem;
+
+//       @include media-breakpoint-up(lg) {
+//         position: absolute;
+//       }
+
+//       display: flex;
+//       flex-direction: column;
+//     }
+//   }
+// }
+
+// .main-navigation {
+//   font-weight: 600;
+
+//   .current-menu-item {
+//     // Usamos color.adjust para compatibilidad moderna de Dart Sass
+//     background-color: darken($primary, 8%);
+//   }
+
+//   a {
+//     color: var(--bs-white);
+//     padding: 0.6rem 1rem;
+
+//     &:hover {
+//       background-color: darken($primary, 8%);
+//     }
+//   }
+
+//   .menu-toggle {
+//     background-color: var(--bs-primary);
+//     color: var(--bs-white);
+//     border: none;
+//   }
+
+//   .sub-menu {
+//     display: flex;
+//     flex-direction: column;
+
+//     li {
+//       background-color: var(--bs-primary);
+//     }
+//   }
+// }

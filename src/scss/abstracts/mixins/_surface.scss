@@ -1,0 +1,4 @@
+@mixin m3-surface($level: 'container') {
+  border: none;
+  background-color: var(--m3-surface-#{$level});
+}

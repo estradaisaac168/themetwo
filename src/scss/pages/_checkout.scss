@@ -1,0 +1,75 @@
+.woocommerce-checkout {
+  .woocommerce-info {
+    // @extend .alert, .alert-info;
+  }
+
+  .checkout_coupon.woocommerce-form-coupon {
+    @include m3-card();
+    padding: 1rem;
+
+    button.button {
+      // @extend .btn, .btn-primary;
+    }
+  }
+
+  .checkout {
+    @include grid($columns: 1fr, $align: baseline, $justify: center, $gap: 2rem);
+
+    @include media-breakpoint-up(lg) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .woocommerce-NoticeGroup.woocommerce-NoticeGroup-checkout {
+      grid-column: 1/-1;
+
+      // @extend .alert, .alert-danger;
+
+      .woocommerce-error{
+      @include m3-alert($danger-bg-subtle, $danger-text-emphasis, $danger, $white);
+      }
+
+      .woocommerce-error,
+      a {
+        color: var(--bs-danger);
+        text-decoration-color: currentColor;
+      }
+    }
+
+    .order-details {
+      // @include card-shadow;
+      @include m3-card();
+      padding: 2rem;
+
+
+      .woocommerce-checkout-review-order {
+        table.woocommerce-checkout-review-order-table {
+          @extend .table;
+        }
+
+        .woocommerce-checkout-payment {
+          ul {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+
+            .woocommerce-info {
+              @include m3-alert($info-bg-subtle, $info-text-emphasis, $info, $white);
+            }
+
+            label,
+            p {
+              font-weight: bolder;
+              color: var(--bs-info);
+            }
+          }
+
+          .place-order {
+            button.button.alt {
+              @include custom-button($bg: $primary, $material: true);
+            }
+          }
+        }
+      }
+    }
+  }
+}

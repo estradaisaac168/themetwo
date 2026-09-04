@@ -1,0 +1,37 @@
+@mixin m3-chip($variant: 'assist', $interactive: true) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  padding: 0 12px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: 8px; // Radio estándar M3 para Chips
+  text-decoration: none;
+  transition: background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+  @if $variant == 'assist' {
+    background-color: var(--bs-tertiary-bg, #f4eff4);
+    color: var(--bs-body-color, #1d1b20);
+    border: none;
+  } @else if $variant == 'outlined' {
+    background-color: transparent;
+    color: var(--bs-body-color, #1d1b20);
+    border: 1px solid rgba(var(--bs-body-color-rgb, 29, 27, 32), 0.16);
+  } @else if $variant == 'selected' {
+    background-color: rgba(var(--bs-primary-rgb, 103, 80, 164), 0.12);
+    color: var(--bs-primary, #6750A4);
+    border: none;
+  }
+
+  @if $interactive == true {
+    cursor: pointer;
+    &:hover {
+      background-color: rgba(var(--bs-body-color-rgb, 29, 27, 32), 0.08);
+      @if $variant == 'selected' {
+        background-color: rgba(var(--bs-primary-rgb, 103, 80, 164), 0.18);
+      }
+    }
+  }
+}

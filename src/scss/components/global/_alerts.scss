@@ -1,0 +1,40 @@
+/***** Seccion WooCommerce Notices / Alertas (Estilo M3) *****/
+.woocommerce-notices-wrapper {
+  @include flex($direction: column, $gap: 0.75rem);
+
+  // 1. Mensaje de Éxito
+  .woocommerce-message {
+    @include m3-alert($success-bg-subtle, $success-text-emphasis, $success, $white);
+  }
+
+  // 2. Mensaje Informativo
+  .woocommerce-info {
+    @include m3-alert($info-bg-subtle, $info-text-emphasis, $info, $white);
+  }
+
+  // 3. Mensaje de Error (con la estructura específica de lista de WooCommerce)
+  .woocommerce-error {
+    @include m3-alert($danger-bg-subtle, $danger-text-emphasis, $danger, $white);
+    flex-direction: column;
+    align-items: flex-start;
+
+    ul {
+      margin: 0;
+      padding-left: 1.25rem;
+      width: 100%;
+
+      li {
+        @include flex($align: center, $justify: space-between, $gap: 0.75rem);
+        width: 100%;
+        padding: 0.25rem 0;
+        outline: none !important;
+      }
+    }
+
+    .button {
+      align-self: flex-end;
+      margin-top: 0.5rem;
+    }
+  }
+}
+/***** End WooCommerce Notices *****/

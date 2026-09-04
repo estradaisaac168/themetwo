@@ -1,0 +1,42 @@
+.quantity {
+  @include flex($direction: row, $align: center, $justify: start, $gap: 0.7rem);
+
+  .input-group {
+    width: auto;
+    display: inline-flex;
+    flex-wrap: nowrap;
+
+    .qty-btn {
+      @include custom-button($bg: $secondary, $material: true);
+      i {
+        pointer-events: none; // Evita que el icono bloquee el clic del botón
+      }
+    }
+  }
+
+  // Input de cantidad adaptativo y responsivo
+  input.qty {
+    @extend .form-control;
+    width: 3rem !important; // Más compacto y elegante por defecto (ideal para desktop/tablet)
+    max-width: 80px; // Evita que se expanda de más
+    min-width: 45px; // Seguro para móviles pequeños
+    text-align: center;
+    padding: 0.375rem 0.25rem;
+    box-sizing: border-box;
+
+    /* Ocultar las flechas nativas del input number */
+    // &::-webkit-outer-spin-button,
+    // &::-webkit-inner-spin-button {
+    //   -webkit-appearance: none;
+    //   margin: 0;
+    // }
+
+    // [type=number] {
+    //   -moz-appearance: textfield;
+    // }
+  }
+
+  .input-group:has(input[type="hidden"]) {
+    display: none !important;
+  }
+}

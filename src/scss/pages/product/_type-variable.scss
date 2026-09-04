@@ -1,0 +1,38 @@
+.product-type-variable {
+
+    form {
+        table.variations {
+            tbody {
+                @include flex($direction: column, $align: start, $gap: 1rem);
+
+                tr {
+                    @include flex($direction: column, $align: start, $gap: 1rem);
+
+                    td {
+                        @include flex($direction: column, $align: start, $gap: 1rem);
+
+                        .custom-swatches {
+                            @include flex($direction: row, $wrap: wrap, $align: start, $gap: .5rem);
+                        }
+                    }
+                }
+            }
+        }
+
+        .single_variation_wrap {
+
+            .woocommerce-variation.single_variation {
+                @include flex($direction: column, $align: start, $gap: 1rem);
+
+                .woocommerce-variation-availability{
+                    margin-bottom: 1rem;
+                }
+            }
+
+            .woocommerce-variation-add-to-cart {
+                @include flex($direction: column, $align: start, $gap: 1.25rem);
+                
+            }
+        }
+    }
+}

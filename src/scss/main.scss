@@ -1,0 +1,133 @@
+// $primary: #0074d9;
+
+
+
+$utilities: (
+  "rounded": (
+    property: border-radius,
+    class: rounded,
+    values: (
+      null: 1rem,
+      circle: 50%,
+    ),
+  ),
+);
+
+/***** CONFIGURACIÓN CENTRALIZADA DE ENCABEZADOS *****/
+
+// 1. Variables Globales (Modifica solo aquí)
+$headings-font-family:
+  "Inter",
+  -apple-system,
+  BlinkMacSystemFont,
+  "Segoe UI",
+  Roboto,
+  sans-serif;
+$headings-font-weight: 700; // 400 (normal), 600 (semi-bold), 700 (bold)
+$headings-color: #1a202c; // Color base de los títulos
+$headings-line-height: 1.2;
+$headings-letter-spacing: -0.02em;
+
+// Configuración de Margen
+$headings-margin-top: 0;
+$headings-margin-bottom: 1.5rem; // Equivale a mb-2 de Bootstrap
+
+// 2. Aplicar a todos los Headings HTML y clases de Bootstrap/WooCommerce
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6,
+.woocommerce-products-header__title,
+.product_title,
+.woocommerce-loop-product__title {
+  font-family: $headings-font-family !important;
+  font-weight: $headings-font-weight;
+  color: $headings-color;
+  line-height: $headings-line-height;
+  letter-spacing: $headings-letter-spacing;
+  margin-top: $headings-margin-top;
+  margin-bottom: $headings-margin-bottom;
+}
+
+// 3. Tamaños Proporcionales (Escala tipográfica opcional)
+h1,
+.h1 {
+  font-size: calc(1.375rem + 1.5vw);
+} // Responsive font sizing
+h2,
+.h2 {
+  font-size: calc(1.325rem + 0.9vw);
+}
+h3,
+.h3 {
+  font-size: calc(1.3rem + 0.6vw);
+}
+h4,
+.h4 {
+  font-size: calc(1.275rem + 0.3vw);
+}
+h5,
+.h5 {
+  font-size: 1.125rem;
+}
+h6,
+.h6 {
+  font-size: 1rem;
+}
+
+// En pantallas grandes se fija el tamaño máximo
+@media (min-width: 1200px) {
+  h1,
+  .h1 {
+    font-size: 2.5rem;
+  }
+  h2,
+  .h2 {
+    font-size: 2rem;
+  }
+  h3,
+  .h3 {
+    font-size: 1.75rem;
+  }
+  h4,
+  .h4 {
+    font-size: 1.5rem;
+  }
+}
+/***** FIN CONFIGURACIÓN ENCABEZADOS *****/
+
+@import 'abstracts/variables';
+
+
+@import "../../node_modules/bootstrap/scss/bootstrap.scss";
+
+
+@import 'abstracts/index';
+@import 'components/index';
+@import 'base/index';
+@import 'layout/index';
+@import 'pages/index';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

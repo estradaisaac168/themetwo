@@ -1,0 +1,28 @@
+.product-type-grouped{
+
+    form.grouped_form{
+
+        table{
+            tbody{
+                tr{
+                    @include grid($columns: 2fr 3fr, $align:center, $gap: .7rem);
+                    border-bottom: 1px solid $light;
+
+                    margin-bottom: 1rem;
+                    padding-bottom: 1rem;
+
+                    &:last-child{
+                        margin-bottom: 0;
+                    }
+
+                    .woocommerce-grouped-product-list-item__price{
+                        grid-column: 1 /-1;
+
+                        @include flex($justify: start, $gap: .5rem);
+                    }
+                }
+            }
+        }
+    }
+
+}

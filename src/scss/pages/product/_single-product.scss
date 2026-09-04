@@ -1,0 +1,133 @@
+/***** Section Single Product*****/
+
+.product-single-layout {
+  position: relative;
+  margin-top: 3rem;
+
+  display: grid;
+  // grid-template-columns: 1fr;
+  grid-template-columns: 100%; // Asegura el ancho en móvil sin salirse
+  gap: 1.5rem;
+
+  @include media-breakpoint-up(lg) {
+    grid-template-columns: repeat(2, 1fr);
+
+    .woocommerce-tabs,
+    .testimonial-container,
+    .related.products {
+      grid-column: 1 / -1;
+    }
+  }
+
+  .onsale {
+    z-index: 1000;
+  }
+
+  .woocommerce-product-gallery {
+    position: relative;
+    overflow: hidden; // Evita que elementos flotantes o el zoom se salgan del marco
+    border-radius: 0.375rem; // Opcional: mantiene esquinas limpias
+
+    // Contenedor directo de la imagen principal
+    .woocommerce-product-gallery__image {
+      position: relative;
+      overflow: hidden; // Vital: corta cualquier imagen ampliada por el plugin de zoom
+
+      img {
+        display: block;
+        width: 100%;
+        height: auto;
+        max-width: 100%;
+      }
+
+      // Imagen magnificada que crea Zoom.js dinámicamente
+      .zoomImg {
+        max-width: none !important; // Requisito técnico de Zoom.js para renderizar la versión HD
+      }
+    }
+
+    .woocommerce-product-gallery__trigger {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      z-index: 10;
+
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 2.5rem;
+      height: 2.5rem;
+      padding: 0;
+
+      background-color: #ffffff;
+      color: #212529;
+      border-radius: 50%;
+      box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.15);
+      text-decoration: none;
+      transition:
+        transform 0.2s ease-in-out,
+        box-shadow 0.2s ease-in-out;
+
+      text-indent: -9999px;
+      overflow: hidden;
+
+      &::before {
+        content: "🔍";
+        text-indent: 0;
+        float: left;
+        font-size: 1rem;
+        line-height: 2.5rem;
+        width: 100%;
+        text-align: center;
+      }
+
+      &:hover,
+      &:focus {
+        color: #ffffff;
+        transform: scale(1.08);
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.175);
+        outline: none;
+      }
+    }
+
+    // Miniaturas nativas de WooCommerce (FlexSlider)
+    .flex-control-thumbs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin: 1rem 0 0 0;
+      padding: 0;
+      list-style: none;
+
+      li {
+        width: 70px;
+        cursor: pointer;
+
+        img {
+          display: block;
+          width: 100%;
+          height: auto;
+          aspect-ratio: 1 / 1;
+          object-fit: cover;
+          opacity: 0.7;
+          border-radius: 0.25rem;
+          transition:
+            opacity 0.2s ease,
+            outline-color 0.2s ease;
+
+          &.flex-active,
+          &:hover {
+            opacity: 1;
+            outline: 2px solid #0d6efd;
+            outline-offset: -2px; // Mantiene el borde dentro de la miniatura sin empujar el layout
+          }
+        }
+      }
+    }
+  }
+
+
+
+
+}
+/***** End Section Single Product*****/

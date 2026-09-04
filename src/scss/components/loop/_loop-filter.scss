@@ -1,0 +1,22 @@
+  .shop-header-filters {
+    // @extend .card;
+    // @extend .shadow;
+    @include m3-card();
+
+    border: none;
+    // max-width: 85%;
+    margin-inline: auto;
+    margin-bottom: 2rem;
+    padding: 1rem;
+
+    @include media-breakpoint-up(md) {
+      max-width: 100%;
+      margin-inline: 0;
+    }
+
+    .woocommerce-result-count {
+      @include media-breakpoint-up(md) {
+        margin: 0;
+      }
+    }
+  }

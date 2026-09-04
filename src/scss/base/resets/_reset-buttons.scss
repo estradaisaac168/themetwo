@@ -1,0 +1,32 @@
+/***** Section Reset Inputs *****/
+.woocommerce {
+  // 1. Text-like inputs (Evitamos extender checkboxes/radios)
+  // Versión con estética Material Design 3 integrada para tus formularios
+
+  input[type="submit"],
+  .single_add_to_cart_button,
+  .button.product_type_simple,
+  .button.product_type_variable,
+  /* Botón "Seleccionar opciones" en bucles */
+  .button.product_type_grouped,
+  /* Botón "Ver opciones" en bucles */
+  .button.product_type_external,
+  /* Botón "Comprar producto" */
+  .woocommerce ul.products li.product .button,
+  /* Cualquier botón genérico en la parrilla de productos */
+  form.cart .button,
+  /* Selector corregido para el botón dentro del form de producto */
+  .woocommerce-cart-form .button,
+  /* Botón "Actualizar carrito" */
+  .coupon .button,
+  /* Botón "Aplicar cupón" */
+  .wc-proceed-to-checkout .button,
+  /* Botón "Finalizar compra" en el carrito */
+  .widget_shopping_cart .button
+  /* Botones del mini-carrito (Ver carrito / Pagar) */
+ {
+    @include custom-button($bg: $primary, $material: true);
+  }
+
+
+}

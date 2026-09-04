@@ -1,0 +1,23 @@
+.custom-swatch-btn {
+    @include custom-button($bg: $secondary ,$size: md, $outline: true, $material: true);
+
+    margin-right: 6px;
+    margin-bottom: 6px;
+
+    &.selected {
+        @include custom-button($bg: #212529, $color: #fff, $material: true);
+    }
+
+    // // Esto desactiva por completo cualquier interacción si tiene la clase disabled
+    // &.disabled,
+    // &:disabled,
+    // &[disabled] {
+    //     pointer-events: none !important;
+    //     opacity: 0.65;
+    //     background-color: #e9ecef !important;
+    //     border-color: #dee2e6 !important;
+    //     color: #6c757d !important;
+    //     box-shadow: none !important;
+    //     transform: none !important;
+    // }
+}

@@ -1,0 +1,88 @@
+// Contenedor principal de la columna derecha (Summary)
+.summary.entry-summary {
+  @include flex($direction: column, $align: start, $gap: 0.3rem);
+
+  p,
+  table {
+    margin: 0;
+  }
+
+  .product_title {
+    font-size: 2rem;
+    font-weight: 700;
+  }
+
+  .woocommerce-product-rating {
+    @include flex($direction: column, $align: start, $gap: 0.5rem);
+
+    .star-rating {
+      color: #f59e0b;
+    }
+  }
+
+  p.price {
+    font-size: 1.5rem;
+    font-weight: 600;
+
+    ins {
+      background: none;
+      color: #111827;
+    }
+
+    del {
+      font-size: 1.125rem;
+      color: #9ca3af;
+    }
+  }
+
+
+  .woocommerce-product-details__short-description {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #4b5563;
+    margin-block: 0.7rem;
+  }
+
+  form.cart {
+    @include flex($direction: column, $gap: 1.25rem);
+    padding-top: .5rem;
+
+    .single_add_to_cart_button {
+      margin-right: auto;
+    }
+  }
+
+  .product_meta {
+    @include flex($direction: column, $align: start, $justify: center, $gap: 0.5rem);
+
+    font-size: 0.875rem;
+    color: #6b7280;
+    padding-top: 1.5rem;
+    margin-top: auto;
+
+    .sku_wrapper {
+      @include flex($direction: row, $wrap: wrap, $align: center, $gap: 0.5rem);
+
+      .sku {
+        @include m3-chip($variant: 'outlined', $interactive: true);
+      }
+    }
+
+    //Quitar en el meta las comas de separacion
+    .posted_in,
+    .tagged_as {
+      @include flex($direction: row, $wrap: wrap, $align: center, $gap: 0.5rem);
+      a {
+        @include m3-chip($variant: 'outlined', $interactive: true);
+      }
+    }
+
+    span {
+      display: block;
+    }
+
+    a {
+      color: inherit;
+    }
+  }
+}

@@ -1,0 +1,103 @@
+.widget_price_filter {
+	
+	// 1. Prevenir FOUC ocultando los inputs que JS esconderá después
+	input[type="text"][style*="display: none"],
+	input[type="text"][hidden] {
+		display: none !important;
+	}
+
+	.price_slider_wrapper {
+		
+		// 2. Definir altura y contenedor relativo estático desde el inicio
+		.price_slider {
+			position: relative;
+			height: 6px;
+			background-color: var(--bs-secondary-bg, #e9ecef);
+			border-radius: 10px;
+			margin-bottom: 1.5rem;
+			border: none;
+			// Evita que el contenedor colapse mientras JS inicializa
+			min-height: 6px;
+
+			// 3. Estilizado base preventivo para los handles
+			.ui-slider-handle {
+				position: absolute;
+				z-index: 2;
+				width: 18px;
+				height: 18px;
+				background-color: #ffffff;
+				border: 2px solid var(--bs-primary, #0d6efd);
+				border-radius: 50%;
+				outline: none;
+				cursor: pointer;
+				top: 50%;
+				transform: translate(-50%, -50%);
+				// Solo animar transform en hover/active, NO la propiedad 'left' para evitar retraso al arrastrar
+				transition: transform 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease;
+
+				&:hover,
+				&.ui-state-focus,
+				&.ui-state-active {
+					background-color: var(--bs-primary, #0d6efd);
+					box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.25);
+					transform: translate(-50%, -50%) scale(1.15);
+				}
+			}
+
+			.ui-slider-range {
+				position: absolute;
+				z-index: 1;
+				top: 0;
+				height: 100%;
+				background-color: var(--bs-primary, #0d6efd);
+				border-radius: 10px;
+			}
+		}
+
+		.price_slider_amount {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			flex-wrap: wrap;
+			gap: 0.75rem;
+
+			// Si el JS tarda, aseguramos que la etiqueta no salte de posición
+			.price_label {
+				order: 1;
+				font-size: 0.875rem;
+				color: var(--bs-body-color, #212529);
+				font-weight: 500;
+				min-height: 1.5rem; // Mantiene el espacio vertical reservado
+
+				.from,
+				.to {
+					font-weight: 700;
+					color: var(--bs-emphasis-color, #000000);
+				}
+			}
+
+			.button {
+				order: 2;
+				padding: 0.375rem 1rem;
+				font-size: 0.875rem;
+				font-weight: 500;
+				color: #ffffff;
+				background-color: var(--bs-primary, #0d6efd);
+				border: 1px solid var(--bs-primary, #0d6efd);
+				border-radius: var(--bs-border-radius, 0.375rem);
+				transition: all 0.2s ease-in-out;
+				cursor: pointer;
+
+				&:hover {
+					background-color: var(--bs-primary-dark, #0b5ed7);
+					border-color: var(--bs-primary-dark, #0a58ca);
+					color: #ffffff;
+				}
+			}
+
+			.clear {
+				display: none;
+			}
+		}
+	}
+}

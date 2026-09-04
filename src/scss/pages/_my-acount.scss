@@ -1,0 +1,186 @@
+// ==========================================
+// MY ACCOUNT DASHBOARD
+// ==========================================
+
+.woocommerce-account {
+  .my-account-content {
+    @include grid($columns: 1fr, $align: start, $justify: stretch, $gap: 1rem);
+
+    @include media-breakpoint-up(lg) {
+      grid-template-columns: 1fr 3fr;
+    }
+
+    // Navegación lateral
+    nav.woocommerce-MyAccount-navigation {
+      @include m3-card($elevation: 1, $interactive: false);
+
+      ul {
+        border: none;
+        padding: 0.5rem;
+        margin: 0;
+        list-style: none;
+        background-color: #f8f9fa;
+        // border-radius: 0.5rem;
+
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+
+        // Quitar pseudoelementos por defecto de WooCommerce
+        &::before,
+        &::after {
+          display: none;
+        }
+
+        li.woocommerce-MyAccount-navigation-link {
+          margin: 0;
+          padding: 0;
+          border: none;
+          background: transparent;
+          border-radius: 0.375rem;
+          transition: all 0.2s ease-in-out;
+
+          &::before,
+          &::after {
+            display: none;
+          }
+
+          a {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: #6c757d;
+            font-weight: 500;
+            text-decoration: none;
+            border-radius: 0.375rem;
+            transition:
+              color 0.2s ease,
+              background-color 0.2s ease;
+
+            &:hover {
+              color: #0d6efd;
+              background-color: rgba(13, 110, 253, 0.05);
+            }
+          }
+
+          &.is-active {
+            background-color: #ffffff;
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+
+            a {
+              color: #0d6efd;
+              font-weight: 600;
+            }
+          }
+        }
+      }
+    }
+
+    // Área de Contenido
+    .woocommerce-MyAccount-content {
+
+      // Notificaciones internas específicas
+      .woocommerce-message,
+      .woocommerce-info,
+      p:not(.form-row,
+        .woocommerce-customer-details--email,
+        .woocommerce-customer-details--phone) {
+        @extend .alert, .alert-info;
+
+        mark {
+          background-color: transparent;
+          font-weight: bolder;
+        }
+      }
+
+      // Formulario de Detalles de Cuenta
+      form {
+        .form-row {
+          .password-input {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            width: 100%;
+
+            input[type="password"],
+            input[type="text"] {
+              flex: 1;
+            }
+
+            .show-password-input {
+              @include custom-button($bg: $secondary, $outline: true, $size: sm, $material: true);
+              @include show-password-input;
+            }
+          }
+        }
+
+        .woocommerce-Button.button {
+          @include custom-button($bg: $primary, $material: true);
+        }
+      }
+
+      // Botón en la lista de órdenes dentro de Mi Cuenta
+      table.woocommerce-orders-table {
+        .woocommerce-orders-table__cell-order-actions {
+          .woocommerce-button {
+            @include custom-button($bg: $info, $outline: true, $size: sm, $material: true);
+
+            width: 100%;
+            text-align: center;
+          }
+        }
+      }
+
+      // Paneles de Orden y Dirección dentro de Mi Cuenta
+      section.woocommerce-order-details,
+      section.woocommerce-customer-details {
+        @include m3-card($interactive: false);
+        padding: 2rem;
+      }
+
+      section.woocommerce-order-details {
+        margin-bottom: 2rem;
+      }
+    }
+  }
+
+  .login-content {
+    // display: grid;
+    // grid-template-columns: 1fr;
+    // align-items: stretch;
+    // justify-content: center;
+    // gap: 2rem;
+
+    // @include media-breakpoint-up(lg) {
+    //   grid-template-columns: repeat(2, 1fr);
+    // }
+
+
+    .content-login,
+    .content-register {
+      @include card-shadow;
+
+      .password-input {
+        display: flex;
+        gap: 1rem;
+      }
+
+      .woocommerce-button.button {
+        @extend .btn, .btn-primary;
+      }
+
+      .show-password-input {
+        @extend .btn, .btn-outline-secondary;
+        @include show-password-input;
+      }
+    }
+  }
+
+  .woocommerce-form.woocommerce-form-login.login {}
+}
+
+body.woocommerce-account:not(.woocommerce-view-order) {
+  .woocommerce-MyAccount-content {
+    @include m3-card($elevation: 1, $interactive: false);
+    padding: 2rem;
+  }
+}

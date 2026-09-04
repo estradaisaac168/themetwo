@@ -1,0 +1,33 @@
+/// Mixin profesional de Flexbox con argumentos opcionales
+/// @author Isaac
+/// @param {String} $direction [row] - Dirección del flujo flex (row, column, etc.)
+/// @param {String} $wrap [nowrap] - Comportamiento de salto de línea (nowrap, wrap, wrap-reverse)
+/// @param {String} $justify [null] - Opcional: justify-content (ej. center, space-between)
+/// @param {String} $align [null] - Opcional: align-items (ej. center, stretch, flex-start)
+/// @param {String} $align-content [null] - Opcional: align-content (para múltiples líneas)
+@mixin flex($direction: row,
+  $wrap: nowrap,
+  $justify: null,
+  $align: null,
+  $align-content: null,
+  $gap: null) {
+  display: flex;
+  flex-direction: $direction;
+  flex-wrap: $wrap;
+
+  @if $justify !=null {
+    justify-content: $justify;
+  }
+
+  @if $align !=null {
+    align-items: $align;
+  }
+
+  @if $align-content !=null {
+    align-content: $align-content;
+  }
+
+  @if $gap !=null {
+    gap: $gap;
+  }
+}

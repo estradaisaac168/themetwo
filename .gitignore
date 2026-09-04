@@ -1,0 +1,38 @@
+# Node.js (Si usas npm/yarn para compilar SCSS, JS, Gulp o Webpack)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Entorno y Dependencias de PHP (Si usas Composer para paquetes en el theme)
+vendor/
+composer.lock
+
+# Archivos de compilación y mapas de origen
+*.map
+css/*.map
+js/*.map
+
+# Archivos del Sistema Operativo y Editores
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Archivos de registro y temporales
+*.log
+*.tmp
+*.bak
+
+# Entorno de desarrollo local
+.env
+.env.local

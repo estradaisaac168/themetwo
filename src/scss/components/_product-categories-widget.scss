@@ -1,0 +1,85 @@
+// ==========================================
+// WooCommerce Product Categories Widget (SCSS)
+// ==========================================
+
+.widget_product_categories {
+	.widget-title {
+		font-size: 1.125rem;
+		font-weight: 600;
+		margin-bottom: 1.25rem;
+		padding-bottom: 0.5rem;
+		border-bottom: 2px solid var(--bs-border-color, #e9ecef);
+	}
+
+	ul.product-categories {
+		list-style: none;
+		padding-left: 0;
+		margin-bottom: 0;
+
+		// Estilos para los elementos principales
+		li.cat-item {
+			position: relative;
+			margin-bottom: 0.25rem;
+
+			a {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				padding: 0.5rem 0.75rem;
+				color: var(--bs-body-color, #212529);
+				text-decoration: none;
+				font-size: 0.9375rem;
+				font-weight: 500;
+				border-radius: var(--bs-border-radius, 0.375rem);
+				transition: all 0.2s ease-in-out;
+
+				&:hover {
+					color: var(--bs-primary, #0d6efd);
+					background-color: var(--bs-tertiary-bg, #f8f9fa);
+					padding-left: 1rem; // Ligero desplazamiento a la derecha
+				}
+			}
+
+			// Indicador cuando una categoría tiene subcategorías (.cat-parent)
+			&.cat-parent {
+				> a {
+					font-weight: 600;
+				}
+			}
+
+			// Subcategorías anidadas
+			ul.children {
+				list-style: none;
+				padding-left: 1rem; // Indentación para las subcategorías
+				margin-top: 0.25rem;
+				margin-bottom: 0.25rem;
+				border-left: 2px solid var(--bs-border-color, #e9ecef);
+
+				li.cat-item {
+					a {
+						font-size: 0.875rem;
+						font-weight: 400;
+						color: var(--bs-secondary-color, #6c757d);
+						padding: 0.375rem 0.75rem;
+
+						&:hover {
+							color: var(--bs-primary, #0d6efd);
+							background-color: var(--bs-tertiary-bg, #f8f9fa);
+						}
+					}
+				}
+			}
+		}
+
+		// Si tienes activada la opción de mostrar contador de productos en el widget
+		.count {
+			font-size: 0.75rem;
+			font-weight: 600;
+			color: var(--bs-secondary-color, #6c757d);
+			background-color: var(--bs-secondary-bg, #e9ecef);
+			padding: 0.15rem 0.5rem;
+			border-radius: 50rem; // Badge redondeado
+			margin-left: auto;
+		}
+	}
+}

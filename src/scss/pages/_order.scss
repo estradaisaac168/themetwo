@@ -1,0 +1,114 @@
+// ==========================================
+// ORDER TRACKING & THANK YOU PAGE
+// ==========================================
+
+// Formulario de Rastreo de Pedido
+form.woocommerce-form.woocommerce-form-track-order.track_order {
+  @include grid($columns: 1fr, $align: baseline, $justify: center, $gap: 1rem);
+
+  margin-top: 3rem;
+
+  & > *:first-child {
+    @extend .text-body-secondary;
+  }
+
+  button.button {
+    @include custom-button($bg: $primary, $material: true);
+  }
+}
+
+// Contenido de Rastreo
+.order-tracking-content {
+  @include grid($columns: 1fr, $align: baseline, $justify: center, $gap: 2rem);
+
+  @include media-breakpoint-up(lg) {
+    grid-template-columns: 3fr 2fr;
+
+    .order-info {
+      grid-column: 1 / -1;
+    }
+  }
+
+  .order-info {
+    @include m3-alert($info-bg-subtle, $info-text-emphasis, $info, $white);
+
+    mark {
+      background-color: transparent;
+      font-weight: bolder;
+    }
+  }
+
+  .woocommerce-order-details,
+  .woocommerce-customer-details {
+    @include m3-card();
+    padding: 1.5rem;
+
+    @include media-breakpoint-up(md) {
+      padding: 2rem;
+    }
+  }
+}
+
+// Página de Confirmación (Thankyou)
+.woocommerce-order {
+  @include grid($columns: 1fr, $align: stretch, $justify: center, $gap: 2rem);
+
+  @include media-breakpoint-up(lg) {
+    grid-template-columns: repeat(2, 1fr);
+
+    .woocommerce-thankyou-order-received,
+    p:not(.woocommerce-thankyou-order-received) {
+      grid-column: 1 / -1;
+    }
+
+    .woocommerce-order-details {
+      grid-column: 2 / 3;
+      grid-row: 3 / 5;
+    }
+  }
+
+  .woocommerce-thankyou-order-received {
+    @include m3-alert(
+      $success-bg-subtle,
+      $success-text-emphasis,
+      $success,
+      $white
+    );
+    margin: 0;
+  }
+
+  p:not(.woocommerce-thankyou-order-received):nth-child(3) {
+    grid-row: 2 / 3;
+    @include m3-alert($info-bg-subtle, $info-text-emphasis, $info, $white);
+    margin: 0;
+  }
+
+  section.woocommerce-order-details {
+    @include media-breakpoint-down(md) {
+      table {
+        tfoot {
+          @include flex($direction: column);
+          tr {
+            @include grid($columns: 2fr 3fr, $align: stretch, $justify: center);
+          }
+        }
+      }
+    }
+  }
+
+  ul.woocommerce-order-overview,
+  section.woocommerce-order-details,
+  section.woocommerce-customer-details {
+    @include m3-card();
+    padding: 1.5rem;
+
+    @include media-breakpoint-up(md) {
+      padding: 2rem;
+    }
+  }
+
+  ul.woocommerce-order-overview {
+    margin: 0;
+    list-style: none;
+  }
+}

@@ -1,0 +1,123 @@
+// ==========================================
+// TABLAS Y FORMULARIOS BASE
+// ==========================================
+
+// Global Form Overrides
+// input[type='text'],
+// input[type='password'],
+// input[type='email'] {
+//     @extend .form-control;
+// }
+
+// label {
+//     @extend .form-label;
+// }
+
+// // WooCommerce Alerts focus fix
+// .woocommerce-error,
+// .woocommerce-info,
+// .woocommerce-message {
+//     &:focus-visible {
+//         outline: none;
+//     }
+// }
+
+//
+
+// Aplicación genérica de tabla Bootstrap a WooCommerce adaptada a Material Design 3
+table.shop_table,
+table.woocommerce-orders-table,
+table.woocommerce-table {
+  @extend .table;
+  @include woocommerce-responsive-table;
+
+  // Estética base M3
+  border-collapse: separate;
+  border-spacing: 0;
+  overflow: hidden;
+  background-color: var(--bs-body-bg, #fff);
+
+  @include media-breakpoint-up(md) {
+    border-radius: 1rem;
+    border: 1px solid rgba(var(--bs-body-color-rgb, 33, 37, 41), 0.12);
+  }
+
+  thead {
+    th {
+      background-color: var(--bs-tertiary-bg, #f4eff4);
+      color: var(--bs-body-color, #49454f);
+      font-weight: 500;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      letter-spacing: 0.05em;
+      padding: 1rem 1.25rem;
+      border-bottom: 2px solid rgba(var(--bs-body-color-rgb, 33, 37, 41), 0.12);
+    }
+  }
+
+  tbody {
+    tr {
+      transition: background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+      &:hover {
+        background-color: rgba(var(--bs-primary-rgb, 103, 80, 164), 0.04);
+      }
+
+      td,
+      th {
+        padding: 1rem 1.25rem;
+        border-bottom: 1px solid
+          rgba(var(--bs-body-color-rgb, 33, 37, 41), 0.08);
+        vertical-align: middle;
+      }
+
+      &:last-child {
+        td,
+        th {
+          @include media-breakpoint-up(lg) {
+            border-bottom: none;
+          }
+        }
+      }
+    }
+  }
+
+  tfoot {
+    th,
+    td {
+      padding: 0.875rem 1.25rem;
+      background-color: transparent;
+      border-top: 1px solid rgba(var(--bs-body-color-rgb, 33, 37, 41), 0.12);
+      font-weight: 500;
+    }
+  }
+}
+
+// Adaptación responsiva específica para la tabla de pedidos
+table.woocommerce-orders-table {
+  @include media-breakpoint-down(md) {
+    tbody tr {
+      td,
+      th {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        text-align: right;
+
+        &::before {
+          content: attr(data-title);
+          font-weight: 600;
+          color: var(--bs-secondary);
+          margin-right: 1rem;
+          text-align: left;
+        }
+
+        &:last-child {
+          border-bottom: 1px solid
+            rgba(var(--bs-body-color-rgb, 33, 37, 41), 0.08);
+          padding-bottom: 1rem;
+        }
+      }
+    }
+  }
+}
