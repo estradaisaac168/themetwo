@@ -1,120 +1,506 @@
+$menu-transition: 0.3s cubic-bezier(0.2, 0, 0, 1);
+$menu-sub-transition: 0.3s ease;
+
+body.menu-open {
+  // Escribe aquí tus estilos cuando el menú esté abierto
+  overflow: hidden;
+  touch-action: none;
+}
+
+body::after {
+  // Estilos para el fondo oscuro (scrim)
+}
+
 nav.nav-main {
-  border: 1px solid rgb(0, 255, 55);
+  // Contenedor principal de la navegación
+  @include flex($direction: column, $align: center, $justify: center);
+  background-color: $primary;
+  box-shadow:
+    0px 1px 2px 0px rgba(0, 0, 0, 0.3),
+    // Sombra ambiental suave
+    0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+}
+
+nav.nav-main .container {
+  // Contenedor interno
+}
+
+nav.nav-main .nav-header {
+  // Cabecera móvil (logo + botón hamburguesa)
+  @include flex($align: center, $justify: space-between);
+}
+
+nav.nav-main .site-branding {
+  // Logo del sitio
+  max-width: 120px;
+}
+
+.toggle-menu .button-toggle {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  border-radius: 9999px;
+  min-width: 48px;
+  min-height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s cubic-bezier(0.2, 0, 0, 1);
+
+  .bi {
+    font-size: 1.5rem;
+    line-height: 1;
+    color: var(--bs-body-color);
+  }
+
+  &:hover {
+    background-color: rgba(var(--bs-body-color-rgb), 0.08);
+  }
+
+  &:active {
+    background-color: rgba(var(--bs-body-color-rgb), 0.12);
+  }
+}
+
+.content-menu {
+  // Panel lateral móvil y barra de navegación en desktop
+  overflow: hidden;
+
+  border: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  width: 360px;
+  max-width: 85vw;
+  height: 100dvh;
+  background-color: var(--bs-body-bg, #fff);
+  box-shadow:
+    0px 4px 8px 3px rgba(0, 0, 0, 0.15),
+    0px 1px 3px 0px rgba(0, 0, 0, 0.3);
+  border-top-right-radius: 16px;
+  border-bottom-right-radius: 16px;
+  padding-top: max(64px, env(safe-area-inset-top));
+  padding-bottom: max(24px, env(safe-area-inset-bottom));
+  // padding-left: 16px;
+  // padding-right: 16px;
+  box-sizing: border-box;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(-100%);
+  will-change: transform, opacity;
+  transition:
+    transform $menu-transition,
+    opacity $menu-transition,
+    visibility $menu-transition;
+
+  &.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0);
+  }
+}
+
+.content-menu .menu-headline {
+  // Títulos o etiquetas dentro del menú
+}
+
+.content-menu ul {
+  // Reseteo de listas
+  list-style: none;
+  margin: 0;
+  // padding: 0;
+}
+
+.ul-menu {
+  // Contenedor de los enlaces del menú
+  max-height: 100%;
+  overflow-y: scroll;
+  // overflow-x: auto;
+  padding-left: 16px;
+  padding-right: 16px;
+  @include flex(
+    $direction: column,
+    $align: flex-start,
+    $justify: flex-start,
+    $gap: 0.5rem
+  );
+}
+
+.ul-menu li,
+li.is-column-header {
+  // Elemento de lista individual
   position: relative;
+  border-radius: 28px;
+  // overflow: hidden;
+  min-width: 100%;
+  margin: 4px 0;
 
-  .container {
-    @include flex($direction: column, $align: start, $justify: start);
+  box-sizing: border-box;
 
-    .nav-header {
-      border: 1px solid rgb(47, 0, 255);
-      @include flex($align: center, $justify: space-between);
-      width: 100%;
+  &.current-menu-item {
+    background-color: #e8def8;
+
+    > a {
+      color: #1d192b;
+      font-weight: 600;
+
+      .bi {
+        color: #1d192b;
+      }
+    }
+  }
+}
+
+.ul-menu li > a {
+  // Enlace principal de cada ítem
+  // @include flex($direction: row, $align: center, $justify: space-between);
+  @include grid($columns: 3fr auto, $align: center, $justify: center);
+  // flex-grow: 1;
+  text-transform: uppercase;
+  min-height: 48px;
+  // padding: 0 16px;
+  padding-left: 12px;
+  text-decoration: none;
+  color: var(--bs-body-color);
+  font-weight: 500;
+  font-size: 0.938rem;
+  border-radius: 28px;
+  width: 100%;
+  box-sizing: border-box;
+  transition: background-color 0.2s ease;
+}
+
+.ul-menu li > a .bi {
+  // Iconos de Bootstrap
+  font-size: 1.5rem;
+  text-align: end;
+  margin-right: 12px;
+  color: inherit;
+
+  @include media-breakpoint-up(lg) {
+    display: none;
+  }
+}
+
+.ul-menu li > a .badge-label {
+  // Etiquetas o insignias (badges)
+  margin-left: auto;
+  font-size: 0.75rem;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  background-color: var(--bs-primary-bg-subtle);
+  color: var(--bs-primary);
+}
+
+.ul-menu > li.menu-item-has-children,
+li.is-column-header.menu-item-has-children {
+  // Elementos padres que despliegan submenú
+@include flex($direction: row, $align: center, $justify: space-between);
+      &::after {
+      content: "\F229";
+      font-family: "bootstrap-icons";
+      font-size: 0.8rem;
+      margin-right: 18px;
+      display: inline-block;
+      transition: transform $menu-transition;
+
+      @include media-breakpoint-up(lg) {
+        margin-right: 0;
+        margin-left: 0.5rem;
+      }
+    }
+  > a {
+    justify-content: space-between;
+
+    // &::after {
+    //   content: "\F229";
+    //   font-family: "bootstrap-icons";
+    //   font-size: 0.8rem;
+    //   margin-right: 18px;
+    //   display: inline-block;
+    //   transition: transform $menu-transition;
+
+    //   @include media-breakpoint-up(lg) {
+    //     margin-right: 0;
+    //     margin-left: 0.5rem;
+    //   }
+    // }
+  }
+
+  @include media-breakpoint-down(lg) {
+    &.open {
+      > a::after {
+        transform: rotate(180deg);
+      }
+
+      > .sub-menu {
+        opacity: 1;
+        visibility: visible;
+        // max-height: 1000px;
+        max-height: 500px;
+      }
     }
   }
 
-  .site-branding {
-    max-width: 100px;
+  @include media-breakpoint-up(lg) {
+    &:hover {
+      > a::after {
+        transform: rotate(180deg);
+      }
+
+      > .sub-menu {
+        opacity: 1;
+        visibility: visible;
+      }
+    }
+  }
+}
+
+// .ul-menu > li.menu-item-has-children,
+// li.is-column-header.menu-item-has-children {
+//   // Elementos padres que despliegan submenú
+//   display: flex;
+//   flex-wrap: wrap;
+//   align-items: center;
+//   justify-content: space-between;
+
+//   > a {
+//     flex: 1;
+//     justify-content: space-between;
+//   }
+
+//   /* Botón disparador independiente para móvil */
+//   .submenu-toggle-btn {
+//     // background: transparent;
+//     border: none;
+//     cursor: pointer;
+//     width: 48px;
+//     height: 48px;
+//     display: inline-flex;
+//     align-items: center;
+//     justify-content: center;
+//     color: $dark;
+//     transition: transform $menu-transition;
+
+//     &::after {
+//       content: "\F229";
+//       font-family: "bootstrap-icons";
+//       font-size: 0.8rem;
+//       display: inline-block;
+//       transition: transform $menu-transition;
+//     }
+
+//     @include media-breakpoint-up(lg) {
+//       display: none; // En escritorio se usa el hover del enlace o se oculta si no aplica
+//     }
+//   }
+
+//   @include media-breakpoint-down(lg) {
+//     &.open {
+//       > .submenu-toggle-btn {
+//         &::after {
+//           transform: rotate(180deg);
+//         }
+//       }
+
+//       > .sub-menu {
+//         opacity: 1;
+//         visibility: visible;
+//         max-height: 500px;
+//       }
+//     }
+//   }
+
+//   @include media-breakpoint-up(lg) {
+//     &:hover {
+//       > a::after {
+//         transform: rotate(180deg);
+//       }
+
+//       > .sub-menu {
+//         opacity: 1;
+//         visibility: visible;
+//       }
+//     }
+//   }
+// }
+
+.ul-menu > li.menu-item-has-children > .sub-menu,
+li.is-column-header.menu-item-has-children > .sub-menu > .sub-menu {
+  // El panel del submenú
+  border: none;
+  position: static;
+  width: 100%;
+  background-color: transparent;
+  max-height: 0;
+  overflow: hidden;
+  // transition: max-height $menu-transition ease-in-out;
+  transition: max-height 0.3s ease-in-out;
+
+  padding-left: 1.5rem;
+
+  li > a {
+    .bi {
+      display: none;
+    }
+  }
+}
+
+.content-menu .button-close {
+  background: transparent;
+  border: none;
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  cursor: pointer;
+  width: 48px;
+  height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  transition: background-color 0.2s cubic-bezier(0.2, 0, 0, 1);
+
+  .bi {
+    font-size: 1.5rem;
+    line-height: 1;
+    color: var(--bs-secondary) !important;
   }
 
-  .toggle-menu {
-    .button-toggle {
-      background: transparent;
-      border: none;
-      cursor: pointer;
+  &:hover {
+    background-color: rgba(var(--bs-body-color-rgb), 0.08);
+  }
+
+  &:active {
+    background-color: rgba(var(--bs-body-color-rgb), 0.12);
+  }
+}
+
+.is-megamenu {
+  position: static !important; // Evita que el li atrape al absolute
+
+  @include media-breakpoint-down(lg) {
+    &.open {
+      > .sub-menu {
+        // Forzamos las propiedades de panel deslizante absoluto e ignoramos el acordeón de altura
+        max-height: none !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        transform: translateX(0) !important;
+      }
     }
   }
 
-  // Estilo Material 3 Navigation Drawer
-  .content-menu {
-    border: 1px solid red;
-    position: fixed; // Fijo a la pantalla para que cubra toda la altura
-    top: 0;
-    left: 0;
-    width: 320px; // Ancho típico de Material 3 (o usa max-width: 80vw)
-    max-width: 80vw;
-    height: 100vh; // Ocupa toda la altura de la pantalla
-    z-index: 1000; // Por encima de todo
-    background-color: #fff; // Color de superficie de Material 3
-    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.15); // Elevación típica M3
+  > .sub-menu {
+    border: none !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important; // Comienza oculto a la derecha para hacer el efecto de desplazamiento (o left: 0 si solo quieres que aparezca encima)
+    z-index: 1000 !important;
+    width: 100% !important;
+    height: 100% !important;
+    background-color: var(--bs-body-bg, #fff) !important;
+    padding-top: max(64px, env(safe-area-inset-top));
+    padding-bottom: max(24px, env(safe-area-inset-bottom));
+    padding-left: 16px;
+    padding-right: 16px;
+    box-sizing: border-box;
+    overflow-y: auto !important; // Permite scroll interno si las columnas son muy largas
+    transition: transform $menu-transition !important;
 
-    // Animación de deslizamiento lateral (Slide-in)
     opacity: 0;
     visibility: hidden;
-    transform: translateX(-100%); // Oculto completamente a la izquierda
+    transform: translateX(-100%);
+    will-change: transform, opacity;
     transition:
-      transform 0.3s cubic-bezier(0.2, 0, 0, 1),
-      opacity 0.3s ease,
-      visibility 0.3s ease; // Curva de animación estándar de Material 3
+      transform $menu-transition,
+      opacity $menu-transition,
+      visibility $menu-transition;
 
-    &.show {
+    // Cuando se abre, se desliza hacia la pantalla
+    .is-megamenu.open & {
       opacity: 1;
       visibility: visible;
-      transform: translateX(0); // Desliza hacia su posición natural
+      transform: translateX(0);
     }
 
-    // Listas y elementos del menú
+    .megamenu-back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: transparent;
+      border: none;
+      color: var(--bs-body-color);
+      font-weight: 600;
+      font-size: 1rem;
+      padding: 0 0 16px 0;
+      margin-bottom: 12px;
+      width: 100%;
+      cursor: pointer;
+      border-bottom: 1px solid rgba(var(--bs-body-color-rgb), 0.1);
 
-    ul {
-      list-style: none;
-      margin: 0;
-      padding: 0; // Padding interno característico de M3
-    }
+      i {
+        font-size: 1.2rem;
+      }
 
-    .ul-menu {
-      padding: 1.5rem 1rem;
-
-      li {
-        position: relative;
-        border-radius: 28px; // Forma de píldora típica para estados activos en M3
-
-        &.current-menu-item {
-          background-color: #e8def8; // Color "Secondary Container" típico de M3 Material You
-        }
-
-        &.menu-item-has-children {
-          > a::after {
-            content: "\F229";
-            font-family: "bootstrap-icons";
-            font-size: 0.8rem;
-            margin-left: 8px;
-            display: inline-block;
-            transition: transform 0.3s ease;
-          }
-
-          &.open > a::after {
-            transform: rotate(180deg);
-          }
-
-          &.open {
-            > .sub-menu {
-              opacity: 1;
-              visibility: visible;
-              max-height: 500px; // O despliegue fluido
-            }
-          }
-
-          // En móviles bajo M3, los submenús suelen expandirse hacia abajo dentro del mismo drawer (tipo acordeón) en lugar de flotar a un lado
-          .sub-menu {
-            border: none;
-            position: static; // Se queda en el flujo normal dentro del drawer
-            width: 100%;
-            background-color: transparent;
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease-in-out;
-            padding-left: 1rem;
-          }
-        }
+      &:hover {
+        opacity: 0.8;
       }
     }
 
-    .button-close {
-      background: transparent;
-      border: none;
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-      cursor: pointer;
+    li.is-column-header.menu-item-has-children {
+      // > a {
+      //   display: flex;
+      //   justify-content: space-between;
+      //   align-items: center;
+      //   font-weight: 600; // Destacar un poco el título de la columna
+      //   cursor: pointer;
+
+      //   /* Flechita indicadora para las columnas */
+      //   &::after {
+      //     content: "\F229"; // Mismo icono de flecha hacia abajo que usas en el menú principal
+      //     font-family: "bootstrap-icons";
+      //     font-size: 0.8rem;
+      //     display: inline-block;
+      //     transition: transform 0.3s ease;
+      //   }
+      // }
+
+      /* Submenú interno de cada columna (los enlaces #1, #2, etc.) */
+      > .sub-menu {
+        position: static !important;
+        width: 100% !important;
+        height: auto !important;
+        max-height: 0;
+        overflow: hidden;
+        background-color: transparent !important;
+        padding: 0 0 0 1rem; // Indentación ligera para diferenciar los hijos
+        transition: max-height 0.3s ease-in-out;
+        // transition: max-height $menu-transition ease-in-out;
+
+        border: none !important;
+
+        // li a {
+        //   padding: 8px 0;
+        //   font-size: 0.875rem;
+        //   color: var(--bs-body-secondary, #6c757d);
+        // }
+      }
+
+      /* Estado cuando la columna se abre con la clase .open */
+      &.open {
+        // > a::after {
+        //   transform: rotate(180deg); // Rota la flechita hacia arriba
+        // }
+
+        > .sub-menu {
+          max-height: 500px; // Altura suficiente para mostrar los enlaces internos
+        }
+      }
     }
   }
+}
+
+li.is-megamenu .sub-menu li.is-column-header {
 }

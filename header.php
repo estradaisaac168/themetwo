@@ -32,6 +32,6 @@
 
         <header id="masthead" class="site-header bg-dark">
                 <?php get_template_part('global-templates/top-bar'); ?>
-                <?php get_template_part('global-templates/navbar'); ?>
 
         </header><!-- #masthead -->
+                <?php get_template_part('global-templates/navbar'); ?>

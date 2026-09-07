@@ -518,3 +518,9 @@ function my_theme_critical_price_filter_css() {
 	}
 }
 add_action( 'wp_head', 'my_theme_critical_price_filter_css', 1 );
+
+
+
+
+
+
