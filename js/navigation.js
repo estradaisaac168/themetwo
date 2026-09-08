@@ -1,26 +1,20 @@
 const toggleMenuElement = document.getElementById("button-toggle");
 const closeMenuElement = document.getElementById("button-close");
-const contentMenu = document.getElementById("content-menu");
+const contentMenu = document.getElementById("nav-content");
 const itemsWithChildren = document.querySelectorAll(".menu-item-has-children");
-const menuLinks = document.querySelectorAll("#content-menu a");
+const menuLinks = document.querySelectorAll("#nav-content a");
 
 // Función auxiliar para cerrar todo, habilitar el scroll y limpiar focos y clases de submenús
 const closeMobileMenu = () => {
-  // 1. Cierra el panel principal y el scroll del body
   contentMenu?.classList.remove("show");
   document.body.classList.remove("menu-open");
   document.activeElement?.blur();
 
-  // 2. Limpia y remueve cualquier clase de apertura en TODOS los submenús y acordeones
-  const allOpenItems = document.querySelectorAll("#content-menu .menu-item-has-children, #content-menu .is-megamenu");
-  allOpenItems.forEach((el) => {
-    el.classList.remove("open");
-  });
+  const allOpenItems = document.querySelectorAll("#nav-content .menu-item-has-children, #nav-content .is-megamenu");
+  allOpenItems.forEach((el) => el.classList.remove("open"));
 
-  const allVisibleSubMenus = document.querySelectorAll("#content-menu .sub-menu, #content-menu .show-sub-menu");
-  allVisibleSubMenus.forEach((sub) => {
-    sub.classList.remove("show-sub-menu");
-  });
+  const allVisibleSubMenus = document.querySelectorAll("#nav-content .sub-menu, #nav-content .show-sub-menu");
+  allVisibleSubMenus.forEach((sub) => sub.classList.remove("show-sub-menu"));
 };
 
 // Toggle general del menú móvil
@@ -30,7 +24,6 @@ if (toggleMenuElement && contentMenu) {
     const isOpen = contentMenu.classList.toggle("show");
     document.body.classList.toggle("menu-open", isOpen);
 
-    // Si se acaba de cerrar mediante el toggle, limpiamos los submenús también
     if (!isOpen) {
       closeMobileMenu();
     }
@@ -56,16 +49,18 @@ menuLinks.forEach((link) => {
   link.addEventListener("touchend", () => link.blur(), { passive: true });
 });
 
-// Control de acordeón para elementos con submenús
+// Control de acordeón para elementos con submenús (Separando la flecha del enlace <a>)
 itemsWithChildren.forEach((item) => {
-  item.addEventListener("click", (e) => {
+  const innerLink = item.querySelector(":scope > a");
+  const subMenu = item.querySelector(":scope > .sub-menu");
+
+  // Función para alternar el despliegue del submenú
+  const toggleSubmenu = (e) => {
+    e.preventDefault();
     e.stopPropagation();
-    
-    const innerLink = item.querySelector(":scope > a");
-    const subMenu = item.querySelector(":scope > .sub-menu");
-    const isOpen = item.classList.contains("open");
 
     innerLink?.blur();
+    const isOpen = item.classList.contains("open");
 
     // Cerrar hermanos activos en el mismo nivel
     item.parentElement?.querySelectorAll(":scope > .menu-item-has-children").forEach((sibling) => {
@@ -78,35 +73,53 @@ itemsWithChildren.forEach((item) => {
     // Alternar estado actual del acordeón
     item.classList.toggle("open", !isOpen);
     subMenu?.classList.toggle("show-sub-menu", !isOpen);
+  };
+
+  // 1. Si se hace clic estrictamente en el pseudo-elemento flecha (zona derecha del li)
+  item.addEventListener("click", (e) => {
+    const rect = item.getBoundingClientRect();
+    const clickX = e.clientX - rect.left;
+    const itemWidth = rect.width;
+
+    // Detectamos si el clic ocurrió en el último 20% del ancho del elemento (donde está la flecha)
+    // o si el enlace tiene un atributo/comportamiento especial de despliegue.
+    const isArrowArea = clickX > itemWidth - 60; // Área aproximada de la flecha
+
+    if (isArrowArea && subMenu) {
+      toggleSubmenu(e);
+    } else {
+      // Si hace clic en el enlace, permitimos la navegación normal de WordPress
+      // pero cerramos el menú móvil si corresponde
+      if (!innerLink?.contains(e.target)) return;
+      innerLink.blur();
+      closeMobileMenu();
+    }
   });
 
-  item.addEventListener("touchend", () => {
-    item.querySelector(":scope > a")?.blur();
+  // 2. Control táctil específico para evitar conflictos en móviles
+  item.addEventListener("touchend", (e) => {
+    innerLink?.blur();
   }, { passive: true });
 });
 
+// Inicialización del botón "Volver" en los megamenús móviles
 document.addEventListener("DOMContentLoaded", function () {
-  // Buscamos el submenú del mega menú en móvil
   const megamenu = document.querySelector(".is-megamenu");
 
   if (megamenu) {
     const subMenu = megamenu.querySelector(":scope > .sub-menu");
 
     if (subMenu) {
-      // Creamos el botón de volver
       const backButton = document.createElement("button");
       backButton.type = "button";
       backButton.className = "megamenu-back-btn";
       backButton.innerHTML = `<i class="bi bi-arrow-left"></i> Volver`;
 
-      // Lo insertamos justo al inicio del submenú
       subMenu.prepend(backButton);
 
-      // Evento para cerrar/regresar al hacer clic en el botón
       backButton.addEventListener("click", function (e) {
         e.preventDefault();
         e.stopPropagation();
-        // Quitamos la clase 'open' del li padre para ocultar el submenú
         megamenu.classList.remove("open");
       });
     }
@@ -119,12 +132,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-
 // const toggleMenuElement = document.getElementById("button-toggle");
 // const closeMenuElement = document.getElementById("button-close");
-// const contentMenu = document.getElementById("content-menu");
+// const contentMenu = document.getElementById("nav-content");
 // const itemsWithChildren = document.querySelectorAll(".menu-item-has-children");
-// const menuLinks = document.querySelectorAll("#content-menu a");
+// const menuLinks = document.querySelectorAll("#nav-content a");
 
 // // Función auxiliar para cerrar todo, habilitar el scroll y limpiar focos
 // const closeMobileMenu = () => {
@@ -234,9 +246,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // const toggleMenuElement = document.getElementById("button-toogle");
 // const closeMenuElement = document.getElementById("button-close");
-// const contentMenu = document.getElementById("content-menu");
+// const contentMenu = document.getElementById("nav-content");
 // const itemsWithChildren = document.querySelectorAll(".menu-item-has-children");
-// const menuLinks = document.querySelectorAll("#content-menu a");
+// const menuLinks = document.querySelectorAll("#nav-content a");
 
 // if (toggleMenuElement && contentMenu) {
 //   toggleMenuElement.addEventListener("click", () => {
