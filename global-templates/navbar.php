@@ -30,7 +30,7 @@
     </div>
 
     <div id="nav-content" class="nav-content">
-        <!-- <div class="container"> -->
+        <div class="container-menu">
             <?php
             wp_nav_menu(
                 array(
@@ -41,6 +41,6 @@
                 )
             );
             ?>
-        <!-- </div> -->
+        </div>
     </div>
 </nav><!-- #site-navigation -->

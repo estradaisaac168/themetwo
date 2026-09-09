@@ -1,14 +1,80 @@
-// ==========================================================================
-// Navigation Styles (Corregido: Ancho al 100% en submenús internos y megamenu)
-// ==========================================================================
+// ==========================================
+// 1. TUS VARIABLES GLOBALES Y SISTEMA M3
+// ==========================================
+$primary: #0061a4; // Azul primario profundo M3
+$primary-container: #d1e4ff; // NUEVA: Fondo de la píldora activa M3
+$secondary: #535f70; // Azul grisáceo secundario
+$success: #10b981; // Éxito armonizado
+$warning: #f59e0b; // Advertencia
+$danger: #ba1a1a; // M3 Error color
+$light: #f0f4f8; // Superficie container principal
+$dark: #111e2c; // Texto principal azul ultra oscuro
+
+$body-bg: #f8fafc; // Fondo general del sitio
+$body-color: $primary; // Color base para acentos
+
+// Superficies para tarjetas, contenedores y paneles
+$surface: #ffffff;
+$surface-container-low: #f8fafc;
+$surface-container: #f0f4f8;
+$surface-container-high: #e2e8f0;
+
+// Roles de Texto e Iconos (On-X Colors)
+$on-background: $dark;
+$on-surface: #1e293b;
+$on-surface-variant: $secondary;
+$outline: #94a3b8;
+$outline-variant: #cbd5e1;
+
+// Variables específicas para tu menú
+
+$headline-color: $dark;
+$container-color: $light;
+$active-color: $primary;
+$active-indicator: $primary-container; // Conectado a tu nueva variable global
+$inactive-color: $secondary;
+$divider-color: #c2c7ce;
 
 $menu-transition: 0.3s cubic-bezier(0.2, 0, 0, 1);
 $menu-sub-transition: 0.3s ease;
 $min-height-toolbar: 68px;
+$line-height: 1.25rem;
+$font-size: 0.875rem;
+$font-weight: 500;
+$active-font-weight: 700;
+$letter-spacing: 0.1px;
 
+body {
+  background-color: $body-bg;
+  color: $on-background;
+  font-family: "Roboto", sans-serif; // O tu tipografía por defecto
+}
+
+/* Bloquea el scroll del documento por completo */
+html.menu-open,
 body.menu-open {
   overflow: hidden;
-  touch-action: none;
+  height: 100vh;
+  width: 100%;
+}
+
+/* La capa oscura (Scrim) */
+.m3-drawer-scrim {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease;
+  z-index: 998;
+
+  body.menu-open & {
+    opacity: 1;
+    visibility: visible;
+  }
 }
 
 // --------------------------------------------------------------------------
@@ -16,7 +82,7 @@ body.menu-open {
 // --------------------------------------------------------------------------
 nav.nav {
   @include flex($direction: column, $align: center);
-  background-color: var(--bs-primary, $primary);
+  background-color: $primary;
   box-shadow:
     0px 1px 2px 0px rgba(0, 0, 0, 0.3),
     0px 1px 3px 1px rgba(0, 0, 0, 0.15);
@@ -25,6 +91,8 @@ nav.nav {
 .nav-header {
   min-height: $min-height-toolbar;
   width: 100%;
+  display: flex;
+  align-items: center;
 
   .container {
     @include flex($align: center, $justify: space-between);
@@ -40,6 +108,8 @@ nav.nav {
     }
 
     .toggle-menu .button-toggle {
+      position: relative;
+      // z-index: 1000;
       background: transparent;
       border: none;
       cursor: pointer;
@@ -72,18 +142,19 @@ nav.nav {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 1000;
+  z-index: 999;
   width: 360px;
   max-width: 85vw;
   height: 100dvh;
-  overflow-y: auto;
-  background-color: var(--bs-body-bg, #fff);
+  overflow: hidden;
+  background-color: $surface-container; // Fondo limpio (#F0F4F8)
+  color: $on-surface;
   box-shadow:
     0px 4px 8px 3px rgba(0, 0, 0, 0.15),
     0px 1px 3px 0px rgba(0, 0, 0, 0.3);
   border-top-right-radius: 16px;
   border-bottom-right-radius: 16px;
-  padding: 1rem 0.75rem max(24px, env(safe-area-inset-bottom)) 0.75rem;
+  //padding: 1rem 0.75rem max(24px, env(safe-area-inset-bottom)) 0.75rem;
   box-sizing: border-box;
   opacity: 0;
   visibility: hidden;
@@ -100,21 +171,42 @@ nav.nav {
     transform: translateX(0);
   }
 
+  .container-menu {
+    padding: 1rem 0.375rem max(24px, env(safe-area-inset-bottom)) 0.75rem;
+    overflow-y: auto;
+    height: 100%;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-gutter: stable;
+
+    &::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: $outline-variant;
+      border-radius: 9999px;
+    }
+  }
+
   ul {
     list-style: none;
     margin: 0;
     padding: 0;
 
-    .menu-headline {
-      color: #6c757d;
-      font-size: 0.75rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      // padding: 16px 16px 6px 16px;
-      padding-block: 4px;
-      border-bottom: 1px solid rgba(var(--bs-body-color-rgb), 0.08);
-min-height: 52px;
+    li.menu-headline {
+      > a {
+        color: $headline-color;
+        font-size: $font-size;
+        font-weight: $font-weight;
+        letter-spacing: $letter-spacing;
+        min-height: 52px;
+        pointer-events: none;
+      }
     }
   }
 }
@@ -125,42 +217,59 @@ min-height: 52px;
 .ul-menu {
   display: flex;
   flex-direction: column;
-  gap: 2px;
 
   li {
     position: relative;
 
-
-
     > a {
+      position: relative;
       display: flex;
       align-items: center;
-      gap: .5rem;
+      gap: 0.5rem;
       min-height: 48px;
-      padding: 0 16px;
+      padding-left: 16px;
+      letter-spacing: $letter-spacing;
       text-decoration: none;
-      color: var(--bs-body-color, #1d192b);
-      font-weight: 500;
-      font-size: 0.938rem;
+      color: $on-surface-variant;
+      font-weight: $font-weight;
+      font-size: $font-size;
       border-radius: 8px;
       box-sizing: border-box;
+      line-height: $line-height;
       transition:
-        color 0.2s ease,
-        background-color 0.2s ease;
+        background-color 0.2s cubic-bezier(0.2, 0, 0, 1),
+        color 0.2s cubic-bezier(0.2, 0, 0, 1);
 
-        i{
-          font-size: 24px;
-        }
-
-      // &:hover {
-      //   color: var(--bs-primary, #0d6efd);
-      //   background-color: rgba(var(--bs-primary-rgb, 13, 110, 253), 0.04);
+      // &:active {
+      //   color: #1D1B20;
+      //   background-color: rgba(29, 27, 32, 0.08);
       // }
+
+      i {
+        font-size: 1.5rem;
+      }
+
+      &:hover {
+        color: $primary; // Resalta con el azul primario al pasar el mouse
+      }
     }
 
     &.current-menu-item > a {
-      color: var(--bs-primary, #0d6efd);
-      font-weight: 600;
+      color: $active-color;
+      font-weight: $active-font-weight;
+      background-color: $active-indicator;
+    }
+  }
+
+  li.drawer-divider {
+    height: 1px;
+    background-color: $outline-variant;
+    border: none;
+    margin: 0.1rem 1rem;
+    list-style: none;
+
+    a {
+      display: none !important;
     }
   }
 
@@ -178,24 +287,23 @@ min-height: 52px;
       text-align: end;
       content: "\F229";
       font-family: "bootstrap-icons";
-      font-size: 0.8rem;
+      font-size: $font-size;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       width: 40px;
       height: 40px;
-      margin-right: 4px;
+      // margin-right: 8px;
+      margin-inline: 8px;
       border-radius: 50%;
       cursor: pointer;
-      color: var(--bs-body-color);
       transition:
         transform $menu-transition,
         color 0.2s ease,
         background-color 0.2s ease;
 
       &:hover {
-        color: var(--bs-primary, #0d6efd);
-        background-color: rgba(var(--bs-primary-rgb, 13, 110, 253), 0.06);
+        background-color: $primary;
       }
     }
 
@@ -203,7 +311,8 @@ min-height: 52px;
       &.open {
         &::after {
           transform: rotate(180deg);
-          color: var(--bs-primary, #0d6efd);
+          color: $primary;
+          margin-inline: 8px;
         }
 
         > .sub-menu {
@@ -218,7 +327,7 @@ min-height: 52px;
       &:hover {
         &::after {
           transform: rotate(180deg);
-          color: var(--bs-primary, #0d6efd);
+          color: $primary;
         }
 
         > .sub-menu {
@@ -264,17 +373,18 @@ min-height: 52px;
   }
 
   > .sub-menu {
+    border: none;
     position: absolute !important;
     top: 0 !important;
     left: 0 !important;
+    z-index: 1001;
     width: 100% !important;
     height: 100% !important;
-    background-color: var(--bs-body-bg, #fff) !important;
+    background-color: $surface-container !important;
+    color: $on-surface;
     box-sizing: border-box;
     overflow-y: auto !important;
-    z-index: 1001;
-    padding: calc($min-height-toolbar + 1rem) 1rem
-      max(24px, env(safe-area-inset-bottom)) 1rem;
+    padding: 1rem 0.75rem max(24px, env(safe-area-inset-bottom)) 0.75rem;
     opacity: 0;
     visibility: hidden;
     transform: translateX(-100%);
@@ -283,6 +393,8 @@ min-height: 52px;
       transform $menu-transition,
       opacity $menu-transition,
       visibility $menu-transition;
+
+    // overflow: hidden;
 
     .is-megamenu.open & {
       opacity: 1;
@@ -312,8 +424,8 @@ min-height: 52px;
         color 0.2s ease;
 
       &:hover {
-        color: var(--bs-primary, #0d6efd);
-        background-color: rgba(var(--bs-primary-rgb, 13, 110, 253), 0.04);
+        color: $primary;
+        background-color: $primary;
       }
 
       i {
@@ -322,593 +434,3 @@ min-height: 52px;
     }
   }
 }
-
-// // ==========================================================================
-// // Material Design 3 (M3) Navigation Styles (Refactorizado)
-// // ==========================================================================
-
-// $menu-transition: 0.3s cubic-bezier(0.2, 0, 0, 1);
-// $menu-sub-transition: 0.3s ease;
-// $min-height-toolbar: 68px;
-
-// $m3-state-hover: rgba(var(--bs-body-color-rgb), 0.08);
-// $m3-state-pressed: rgba(var(--bs-body-color-rgb), 0.12);
-
-// @mixin m3-interactive-state {
-//   transition: background-color 0.2s cubic-bezier(0.2, 0, 0, 1);
-//   &:hover { background-color: $m3-state-hover; }
-//   &:active { background-color: $m3-state-pressed; }
-// }
-
-// body.menu-open {
-//   overflow: hidden;
-//   touch-action: none;
-// }
-
-// // --------------------------------------------------------------------------
-// // 1. Navbar Principal & Header
-// // --------------------------------------------------------------------------
-// nav.nav {
-//   @include flex($direction: column, $align: center);
-//   background-color: var(--bs-primary, $primary);
-//   box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.3), 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
-// }
-
-// .nav-header {
-//   min-height: $min-height-toolbar;
-//   width: 100%;
-
-//   .container {
-//     @include flex($align: center, $justify: space-between);
-
-//     .site-branding {
-//       max-width: 120px;
-//       margin-block: 0.5rem;
-//       .site-title { display: none; margin: 0; }
-//     }
-
-//     .toggle-menu .button-toggle {
-//       background: transparent;
-//       border: none;
-//       cursor: pointer;
-//       border-radius: 9999px;
-//       min-width: 48px;
-//       min-height: 48px;
-//       display: inline-flex;
-//       align-items: center;
-//       justify-content: center;
-//       @include m3-interactive-state;
-
-//       .bi {
-//         font-size: 1.5rem;
-//         line-height: 1;
-//         color: var(--bs-body-color);
-//       }
-//     }
-//   }
-// }
-
-// // --------------------------------------------------------------------------
-// // 2. Drawer / Panel de Navegación Móvil
-// // --------------------------------------------------------------------------
-// .nav-content {
-//   border: none;
-//   position: fixed;
-//   top: 0;
-//   left: 0;
-//   z-index: 1000;
-//   width: 360px;
-//   max-width: 85vw;
-//   height: 100dvh;
-//   overflow-y: auto;
-//   background-color: var(--bs-body-bg, #fff);
-//   box-shadow: 0px 4px 8px 3px rgba(0, 0, 0, 0.15), 0px 1px 3px 0px rgba(0, 0, 0, 0.3);
-//   border-top-right-radius: 24px;
-//   border-bottom-right-radius: 24px;
-//   padding: 1rem 0.75rem max(24px, env(safe-area-inset-bottom)) 0.75rem;
-//   box-sizing: border-box;
-//   opacity: 0;
-//   visibility: hidden;
-//   transform: translateX(-100%);
-//   will-change: transform, opacity;
-//   transition: transform $menu-transition, opacity $menu-transition, visibility $menu-transition;
-
-//   &.show {
-//     opacity: 1;
-//     visibility: visible;
-//     transform: translateX(0);
-//   }
-
-//   ul {
-//     list-style: none;
-//     margin: 0;
-//     padding: 0;
-
-//     .menu-headline {
-//       color: #49454f;
-//       font-size: 0.75rem;
-//       font-weight: 500;
-//       text-transform: uppercase;
-//       letter-spacing: 0.05em;
-//       padding: 12px 16px 4px 16px;
-//     }
-//   }
-// }
-
-// // --------------------------------------------------------------------------
-// // 3. Estilos de Lista y Menú Principal (.ul-menu)
-// // --------------------------------------------------------------------------
-// .ul-menu {
-//   display: flex;
-//   flex-direction: column;
-//   gap: 4px;
-
-//   li {
-//     position: relative;
-//     border-radius: 28px;
-//     overflow: hidden;
-//     transition: background-color 0.2s cubic-bezier(0.2, 0, 0, 1);
-
-//     > a {
-//       display: flex;
-//       align-items: center;
-//       min-height: 48px;
-//       padding: 0 16px;
-//       text-decoration: none;
-//       color: var(--bs-body-color, #1d192b);
-//       font-weight: 500;
-//       font-size: 0.938rem;
-//       border-radius: 28px;
-//       box-sizing: border-box;
-//       @include m3-interactive-state;
-//     }
-
-//     &.current-menu-item > a {
-//       background-color: var(--bs-primary-bg-subtle, #e8def8);
-//       color: var(--bs-primary, #1d192b);
-//       font-weight: 600;
-//     }
-//   }
-
-//   // Elementos con hijos / Acordeón móvil & Hover desktop
-//   li.menu-item-has-children {
-//     @include grid($columns: 1fr auto, $align: center, $justify: space-between);
-
-//     > a {
-//       grid-column: 1 / 2;
-//       width: 100%;
-//     }
-
-//     &::after {
-//       grid-column: 2 / 3;
-//       grid-row: 1 / 2;
-//       text-align: end;
-//       content: "\F229";
-//       font-family: "bootstrap-icons";
-//       font-size: 0.8rem;
-//       display: inline-flex;
-//       align-items: center;
-//       justify-content: center;
-//       width: 40px;
-//       height: 40px;
-//       margin-right: 4px;
-//       border-radius: 50%;
-//       cursor: pointer;
-//       transition: transform $menu-transition, background-color 0.2s ease;
-//       @include m3-interactive-state;
-//     }
-
-//     @include media-breakpoint-down(lg) {
-//       &.open {
-//         &::after { transform: rotate(180deg); }
-//         > .sub-menu { opacity: 1; visibility: visible; max-height: 500px; }
-//       }
-//     }
-
-//     @include media-breakpoint-up(lg) {
-//       &:hover {
-//         &::after { transform: rotate(180deg); }
-//         > .sub-menu { opacity: 1; visibility: visible; }
-//       }
-//     }
-//   }
-
-//   // Submenús anidados generales
-//   > li.menu-item-has-children > .sub-menu,
-//   li.is-column-header.menu-item-has-children > .sub-menu > .sub-menu {
-//     grid-column: 1/-1;
-//     position: static;
-//     width: 100%;
-//     background-color: transparent;
-//     max-height: 0;
-//     overflow: hidden;
-//     padding-left: 1rem;
-//     transition: max-height $menu-sub-transition;
-
-//     li > a .bi { display: none; }
-//   }
-// }
-
-// // ==========================================================================
-// // M3 Megamenu Complete Refactored Block
-// // ==========================================================================
-
-// .is-megamenu {
-//   position: static !important;
-
-//   @include media-breakpoint-down(lg) {
-//     &.open > .sub-menu {
-//       max-height: none !important;
-//       opacity: 1 !important;
-//       visibility: visible !important;
-//       transform: translateX(0) !important;
-//     }
-//   }
-
-//   > .sub-menu {
-//     position: absolute !important;
-//     top: 0 !important;
-//     left: 0 !important;
-//     width: 100% !important;
-//     height: 100% !important;
-//     background-color: var(--bs-body-bg, #fff) !important;
-//     box-sizing: border-box;
-//     overflow-y: auto !important;
-//     z-index: 1001;
-//     padding: calc($min-height-toolbar + 1rem) 1rem max(24px, env(safe-area-inset-bottom)) 1rem;
-//     opacity: 0;
-//     visibility: hidden;
-//     transform: translateX(-100%);
-//     will-change: transform, opacity;
-//     transition: transform $menu-transition, opacity $menu-transition, visibility $menu-transition;
-
-//     .is-megamenu.open & {
-//       opacity: 1;
-//       visibility: visible;
-//       transform: translateX(0);
-//     }
-
-//     // Botón de retroceso M3
-//     .megamenu-back-btn {
-//       position: absolute !important;
-//       top: 0 !important;
-//       left: 0 !important;
-//       display: inline-flex;
-//       align-items: center;
-//       gap: 12px;
-//       background: transparent;
-//       border: none;
-//       color: var(--bs-body-color);
-//       font-weight: 600;
-//       font-size: 1rem;
-//       padding: 0 16px;
-//       width: 100%;
-//       min-height: $min-height-toolbar;
-//       cursor: pointer;
-//       border-bottom: 1px solid rgba(var(--bs-body-color-rgb), 0.08);
-//       @include m3-interactive-state;
-
-//       i { font-size: 1.2rem; }
-//     }
-
-//     // Listas y elementos internos con espaciado M3 correcto
-//     ul {
-//       list-style: none;
-//       margin: 0;
-//       padding: 8px 0 0 0;
-//       display: flex;
-//       flex-direction: column;
-//       gap: 4px;
-//     }
-
-//     li {
-//       position: relative;
-//       border-radius: 28px;
-//       overflow: hidden;
-
-//       > a {
-//         display: flex;
-//         align-items: center;
-//         min-height: 48px;
-//         padding: 0 16px;
-//         text-decoration: none;
-//         color: var(--bs-body-color, #1d192b);
-//         font-weight: 500;
-//         font-size: 0.938rem;
-//         border-radius: 28px;
-//         box-sizing: border-box;
-//         @include m3-interactive-state;
-//       }
-
-//       &.current-menu-item > a {
-//         background-color: var(--bs-primary-bg-subtle, #e8def8);
-//         color: var(--bs-primary, #1d192b);
-//         font-weight: 600;
-//       }
-//     }
-
-//     // Submenús internos por columna (Acordeón)
-//     li.is-column-header.menu-item-has-children {
-//       > .sub-menu {
-//         position: static !important;
-//         width: 100% !important;
-//         height: auto !important;
-//         max-height: 0;
-//         overflow: hidden;
-//         background-color: transparent !important;
-//         padding-left: 1rem;
-//         transition: max-height $menu-sub-transition;
-
-//         li > a .bi { display: none; }
-//       }
-
-//       &.open > .sub-menu {
-//         max-height: 500px;
-//       }
-//     }
-//   }
-// }
-
-// // SCSS Styles
-// $menu-transition: 0.3s cubic-bezier(0.2, 0, 0, 1);
-// $menu-sub-transition: 0.3s ease;
-// $min-height-toolbar: 68px;
-
-// body.menu-open {
-//   overflow: hidden;
-//   touch-action: none;
-// }
-
-// nav.nav {
-//   @include flex($direction: column, $align: center);
-//   background-color: $primary;
-//   box-shadow:
-//     0px 1px 2px 0px rgba(0, 0, 0, 0.3),
-//     0px 1px 3px 1px rgba(0, 0, 0, 0.15);
-// }
-
-// .nav-header {
-//   min-height: $min-height-toolbar;
-//   width: 100%;
-// }
-
-// .nav-header .container {
-//   @include flex($align: center, $justify: space-between);
-
-//   .site-branding {
-//     max-width: 120px;
-//     margin-block: 0.5rem;
-
-//     .site-title {
-//       display: none;
-//       margin: 0;
-//     }
-//   }
-
-//   .toggle-menu .button-toggle {
-//     background: transparent;
-//     border: none;
-//     cursor: pointer;
-//     border-radius: 9999px;
-//     min-width: 48px;
-//     min-height: 48px;
-//     display: inline-flex;
-//     align-items: center;
-//     justify-content: center;
-//     transition: background-color 0.2s cubic-bezier(0.2, 0, 0, 1);
-
-//     .bi {
-//       font-size: 1.5rem;
-//       line-height: 1;
-//       color: var(--bs-body-color);
-//     }
-
-//     &:hover {
-//       background-color: rgba(var(--bs-body-color-rgb), 0.08);
-//     }
-
-//     &:active {
-//       background-color: rgba(var(--bs-body-color-rgb), 0.12);
-//     }
-//   }
-// }
-
-// .nav-content {
-//   border: none;
-//   position: fixed;
-//   top: 0;
-//   left: 0;
-//   z-index: 1000;
-//   width: 360px;
-//   max-width: 85vw;
-//   height: 100dvh;
-//   overflow-y: auto;
-//   background-color: var(--bs-body-bg, #fff);
-//   box-shadow:
-//     0px 4px 8px 3px rgba(0, 0, 0, 0.15),
-//     0px 1px 3px 0px rgba(0, 0, 0, 0.3);
-//   border-top-right-radius: 16px;
-//   border-bottom-right-radius: 16px;
-//   padding-bottom: max(24px, env(safe-area-inset-bottom));
-//   box-sizing: border-box;
-//   opacity: 0;
-//   visibility: hidden;
-//   transform: translateX(-100%);
-//   will-change: transform, opacity;
-//   transition:
-//     transform $menu-transition,
-//     opacity $menu-transition,
-//     visibility $menu-transition;
-
-//   &.show {
-//     opacity: 1;
-//     visibility: visible;
-//     transform: translateX(0);
-//   }
-// }
-
-// .nav-content ul {
-//   list-style: none;
-//   margin: 0;
-//   padding: 0;
-
-//   .menu-headline {
-//     color: #49454f;
-//   }
-// }
-
-// .ul-menu li.menu-item-has-children {
-//   @include grid($columns: 1fr auto, $align: center, $justify: space-between);
-//   position: relative;
-
-//   > a {
-//     grid-column: 1 / 2;
-//     width: 100%;
-//     box-sizing: border-box;
-//   }
-
-//   &::after {
-//     grid-column: 2 / 3;
-//     grid-row: 1 / 2;
-//     text-align: end;
-//     content: "\F229";
-//     font-family: "bootstrap-icons";
-//     font-size: 0.8rem;
-//     display: inline-block;
-//     padding: 1rem;
-//     cursor: pointer;
-//     transition: transform 0.3s cubic-bezier(0.2, 0, 0, 1);
-//   }
-
-//   @include media-breakpoint-down(lg) {
-//     &.open {
-//       &::after {
-//         transform: rotate(180deg);
-//       }
-
-//       > .sub-menu {
-//         opacity: 1;
-//         visibility: visible;
-//         max-height: 500px;
-//       }
-//     }
-//   }
-
-//   @include media-breakpoint-up(lg) {
-//     &:hover {
-//       &::after {
-//         transform: rotate(180deg);
-//       }
-
-//       > .sub-menu {
-//         opacity: 1;
-//         visibility: visible;
-//       }
-//     }
-//   }
-// }
-
-// .ul-menu > li.menu-item-has-children > .sub-menu,
-// li.is-column-header.menu-item-has-children > .sub-menu > .sub-menu {
-//   // El panel del submenú
-
-//   grid-column: 1/-1;
-//   position: static;
-//   width: 100%;
-//   background-color: transparent;
-//   max-height: 0;
-//   overflow: hidden;
-//   transition: max-height 0.3s ease-in-out;
-
-//   li > a {
-//     .bi {
-//       display: none;
-//     }
-//   }
-// }
-
-// .is-megamenu {
-//   position: static !important;
-
-//   @include media-breakpoint-down(lg) {
-//     &.open {
-//       > .sub-menu {
-//         max-height: none !important;
-//         opacity: 1 !important;
-//         visibility: visible !important;
-//         transform: translateX(0) !important;
-//       }
-//     }
-//   }
-
-//   > .sub-menu {
-//     position: absolute !important;
-//     top: 0 !important;
-//     left: 0 !important;
-//     width: 100% !important;
-//     height: 100% !important;
-//     background-color: var(--bs-body-bg, #fff) !important;
-//     box-sizing: border-box;
-//     overflow-y: auto !important;
-//     transition: transform $menu-transition !important;
-//     z-index: 1001;
-//     opacity: 0;
-//     visibility: hidden;
-//     transform: translateX(-100%);
-//     will-change: transform, opacity;
-//     transition:
-//       transform $menu-transition,
-//       opacity $menu-transition,
-//       visibility $menu-transition;
-
-//     .is-megamenu.open & {
-//       opacity: 1;
-//       visibility: visible;
-//       transform: translateX(0);
-//     }
-
-//     .megamenu-back-btn {
-//       position: absolute !important;
-//       top: 0 !important;
-//       left: 0 !important;
-//       display: inline-flex;
-//       align-items: center;
-//       gap: 8px;
-//       background: transparent;
-//       border: none;
-//       color: var(--bs-body-color);
-//       font-weight: 600;
-//       font-size: 1rem;
-//       margin-bottom: 12px;
-//       width: 100%;
-//       min-height: $min-height-toolbar;
-//       cursor: pointer;
-
-//       i {
-//         font-size: 1.2rem;
-//       }
-
-//       &:hover {
-//         opacity: 0.8;
-//       }
-//     }
-
-//     li.is-column-header.menu-item-has-children {
-//       > .sub-menu {
-//         position: static !important;
-//         width: 100% !important;
-//         height: auto !important;
-//         max-height: 0;
-//         overflow: hidden;
-//         background-color: transparent !important;
-//         transition: max-height 0.3s ease-in-out;
-//       }
-
-//       &.open {
-//         > .sub-menu {
-//           max-height: 500px;
-//         }
-//       }
-//     }
-//   }
-// }

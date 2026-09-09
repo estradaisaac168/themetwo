@@ -31,7 +31,8 @@
         <a class="skip-link screen-reader-text" href="#primary"><?php esc_html_e('Skip to content', 'themetwo'); ?></a>
 
         <header id="masthead" class="site-header bg-dark">
-                <?php get_template_part('global-templates/top-bar'); ?>
+            <?php get_template_part('global-templates/top-bar'); ?>
 
         </header><!-- #masthead -->
-                <?php get_template_part('global-templates/navbar'); ?>
+        <?php get_template_part('global-templates/navbar'); ?>
+        <div class="m3-drawer-scrim"></div>
