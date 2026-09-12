@@ -1,30 +1,4 @@
-// ==========================================
-// 1. TUS VARIABLES GLOBALES Y SISTEMA M3
-// ==========================================
-$primary: #0061a4; // Azul primario profundo M3
-$primary-container: #d1e4ff; // NUEVA: Fondo de la píldora activa M3
-$secondary: #535f70; // Azul grisáceo secundario
-$success: #10b981; // Éxito armonizado
-$warning: #f59e0b; // Advertencia
-$danger: #ba1a1a; // M3 Error color
-$light: #f0f4f8; // Superficie container principal
-$dark: #111e2c; // Texto principal azul ultra oscuro
 
-$body-bg: #f8fafc; // Fondo general del sitio
-$body-color: $primary; // Color base para acentos
-
-// Superficies para tarjetas, contenedores y paneles
-$surface: #ffffff;
-$surface-container-low: #f8fafc;
-$surface-container: #f0f4f8;
-$surface-container-high: #e2e8f0;
-
-// Roles de Texto e Iconos (On-X Colors)
-$on-background: $dark;
-$on-surface: #1e293b;
-$on-surface-variant: $secondary;
-$outline: #94a3b8;
-$outline-variant: #cbd5e1;
 
 // Variables específicas para tu menú
 
@@ -64,7 +38,7 @@ body.menu-open {
   top: 0;
   left: 0;
   width: 100vw;
-  height: 100vh;
+  height: 100dvh;
   background-color: rgba(0, 0, 0, 0.4);
   opacity: 0;
   visibility: hidden;
@@ -134,9 +108,6 @@ nav.nav {
   }
 }
 
-// --------------------------------------------------------------------------
-// 2. Mobile Navigation Drawer Panel
-// --------------------------------------------------------------------------
 .nav-content {
   border: none;
   position: fixed;
@@ -147,7 +118,7 @@ nav.nav {
   max-width: 85vw;
   height: 100dvh;
   overflow: hidden;
-  background-color: $surface-container; // Fondo limpio (#F0F4F8)
+  background-color: $surface-container;
   color: $on-surface;
   box-shadow:
     0px 4px 8px 3px rgba(0, 0, 0, 0.15),
@@ -170,35 +141,65 @@ nav.nav {
     visibility: visible;
     transform: translateX(0);
   }
+}
 
-  .container-menu {
-    padding: 1rem 0.375rem max(24px, env(safe-area-inset-bottom)) 0.75rem;
-    overflow-y: auto;
-    height: 100%;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-gutter: stable;
+//Reset ul + li + a
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
 
-    &::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
-    }
-
-    &::-webkit-scrollbar-track {
-      background: transparent;
-    }
-
-    &::-webkit-scrollbar-thumb {
-      background-color: $outline-variant;
-      border-radius: 9999px;
-    }
-  }
-
-  ul {
-    list-style: none;
+  li {
     margin: 0;
     padding: 0;
 
-    li.menu-headline {
+    a {
+      margin: 0;
+      padding: 0;
+      text-decoration: none;
+    }
+  }
+}
+
+//Padding en el contenedor general
+.ul-menu {
+  padding: 1rem 0.75rem max(24px, env(safe-area-inset-bottom)) 0.75rem;
+  overflow-y: auto;
+  height: 100%;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-gutter: stable;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: $outline-variant;
+    border-radius: 9999px;
+  }
+}
+
+//Estilo general ul + li + a
+.ul-menu {
+  li.menu-item {
+    &.drawer-divider {
+      height: 1px;
+      background-color: $outline-variant;
+      border: none;
+      margin: 0.1rem 1rem;
+      list-style: none;
+
+      a {
+        display: none !important;
+      }
+    }
+
+    &.menu-headline {
       > a {
         color: $headline-color;
         font-size: $font-size;
@@ -208,24 +209,14 @@ nav.nav {
         pointer-events: none;
       }
     }
-  }
-}
 
-// --------------------------------------------------------------------------
-// 3. Primary Menu Lists (.ul-menu)
-// --------------------------------------------------------------------------
-.ul-menu {
-  display: flex;
-  flex-direction: column;
+    &.current-menu-item > a {
+      color: $active-color;
+      font-weight: $active-font-weight;
+      background-color: $active-indicator;
+    }
 
-  li {
-    position: relative;
-
-    > a {
-      position: relative;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
+    a {
       min-height: 48px;
       padding-left: 16px;
       letter-spacing: $letter-spacing;
@@ -240,197 +231,449 @@ nav.nav {
         background-color 0.2s cubic-bezier(0.2, 0, 0, 1),
         color 0.2s cubic-bezier(0.2, 0, 0, 1);
 
-      // &:active {
-      //   color: #1D1B20;
-      //   background-color: rgba(29, 27, 32, 0.08);
-      // }
-
       i {
         font-size: 1.5rem;
+        color: $on-surface-variant;
       }
 
-      &:hover {
-        color: $primary; // Resalta con el azul primario al pasar el mouse
-      }
-    }
-
-    &.current-menu-item > a {
-      color: $active-color;
-      font-weight: $active-font-weight;
-      background-color: $active-indicator;
-    }
-  }
-
-  li.drawer-divider {
-    height: 1px;
-    background-color: $outline-variant;
-    border: none;
-    margin: 0.1rem 1rem;
-    list-style: none;
-
-    a {
-      display: none !important;
-    }
-  }
-
-  li.menu-item-has-children {
-    @include grid($columns: 1fr auto, $align: center, $justify: space-between);
-
-    > a {
-      grid-column: 1 / 2;
-      width: 100%;
-    }
-
-    &::after {
-      grid-column: 2 / 3;
-      grid-row: 1 / 2;
-      text-align: end;
-      content: "\F229";
-      font-family: "bootstrap-icons";
-      font-size: $font-size;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 40px;
-      height: 40px;
-      // margin-right: 8px;
-      margin-inline: 8px;
-      border-radius: 50%;
-      cursor: pointer;
-      transition:
-        transform $menu-transition,
-        color 0.2s ease,
-        background-color 0.2s ease;
-
-      &:hover {
-        background-color: $primary;
+      i.arrow {
+        width: 48px;
+        height: 48px;
+        color: $on-surface-variant;
+        @include flex($direction: row, $align: center, $justify: center);
+        font-size: $font-size;
+        transition:
+          transform 0.3s ease,
+          color 0.3s ease;
       }
     }
 
-    @include media-breakpoint-down(lg) {
-      &.open {
-        &::after {
-          transform: rotate(180deg);
-          color: $primary;
-          margin-inline: 8px;
-        }
-
-        > .sub-menu {
-          opacity: 1;
-          visibility: visible;
-          max-height: 500px;
-        }
+    &:not(.is-megamenu) {
+      a {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
       }
-    }
-
-    @include media-breakpoint-up(lg) {
-      &:hover {
-        &::after {
-          transform: rotate(180deg);
-          color: $primary;
-        }
-
-        > .sub-menu {
-          opacity: 1;
-          visibility: visible;
-        }
-      }
-    }
-  }
-
-  // Submenús anidados generales (Menú Principal)
-  li.menu-item-has-children .sub-menu {
-    grid-column: 1/-1;
-    position: static;
-    width: 100%;
-    min-width: 100%;
-    background-color: transparent;
-    max-height: 0;
-    overflow: hidden;
-    padding-left: 1rem;
-    box-sizing: border-box;
-    transition: max-height $menu-sub-transition;
-
-    li > a .bi {
-      display: none;
     }
   }
 }
+
+//Estilo cuando li tiene la clase open (Rotacion de arrow + Despliegue de submenu)
+.ul-menu li.menu-item-has-children:not(.is-megamenu) {
+  &.open > a {
+    i.arrow {
+      transform: rotate(180deg);
+      color: $on-surface-variant;
+    }
+  }
+
+  &.open > .sub-menu {
+    opacity: 1;
+    visibility: visible;
+    max-height: 500px;
+  }
+}
+
+.ul-menu li.menu-item-has-children:not(.is-megamenu) > a {
+  @include grid(
+    $columns: auto 1fr auto,
+    $align: center,
+    $justify: space-between
+  );
+}
+
+.ul-menu li.menu-item-has-children:not(.is-megamenu) .sub-menu li, a {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  white-space: normal; /* Evita que el texto se estire en una sola línea */
+  word-break: break-word; /* Rompe palabras muy largas si es necesario */
+}
+
+//Estilo por defecto oculta el submenu main
+.ul-menu li.menu-item-has-children:not(.is-megamenu) .sub-menu {
+  grid-column: 1/-1;
+  position: static;
+  width: 100%;
+  max-width: 100%;
+  background-color: transparent;
+  max-height: 0;
+  overflow: hidden;
+  padding-left: 1rem;
+  box-sizing: border-box;
+  transition: max-height $menu-sub-transition;
+}
+
+/***** Estilos Megamenu *****/
+
+.is-megamenu {
+  ul {
+    margin: 0;
+  }
+}
+
+.is-megamenu.menu-item-has-children {
+  &.open-megamenu > a {
+    i.arrow {
+      transform: rotate(180deg);
+      color: $on-surface-variant;
+    }
+  }
+
+  &.open-megamenu > .sub-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0);
+  }
+}
+
+.is-megamenu.menu-item-has-children > a {
+  @include grid(
+    $columns: auto 1fr auto,
+    $align: center,
+    $justify: space-between,
+    $gap: 0.5rem
+  );
+}
+
+.is-megamenu.menu-item-has-children > .sub-menu > a {
+}
+
+.is-megamenu.menu-item-has-children > .sub-menu {
+  border: none;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  z-index: 1001;
+  width: 100% !important;
+  height: 100% !important;
+  background-color: $surface-container !important;
+  color: $on-surface;
+  box-sizing: border-box;
+  overflow-y: auto !important;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(-100%);
+  will-change: transform, opacity;
+  transition:
+    transform $menu-transition,
+    opacity $menu-transition,
+    visibility $menu-transition;
+
+  padding: 1rem 0.375rem max(24px, env(safe-area-inset-bottom)) 0.75rem;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-gutter: stable;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: $outline-variant;
+    border-radius: 9999px;
+  }
+}
+
+.is-megamenu.menu-item-has-children > .sub-menu .back-to-mainmenu {
+  i {
+    font-size: 1.2rem;
+    color: $headline-color;
+  }
+}
+
+.is-megamenu.menu-item-has-children > .sub-menu li.is-column-header > a {
+  @include grid(
+    $columns: 1fr auto,
+    $align: center,
+    $justify: space-between,
+    $gap: 0.5rem
+  );
+}
+
+.is-megamenu.menu-item-has-children > .sub-menu li.is-column-header {
+  &.open-megamenu-col > a {
+    i.arrow {
+      transform: rotate(180deg);
+      color: $on-surface-variant;
+    }
+  }
+
+  &.open-megamenu-col {
+    > .sub-menu {
+      opacity: 1;
+      visibility: visible;
+      max-height: 500px;
+    }
+  }
+}
+
+/***** End Estilos Megamenu *****/
+
+// .container-menu {
+//   padding: 1rem 0.375rem max(24px, env(safe-area-inset-bottom)) 0.75rem;
+//   overflow-y: auto;
+//   height: 100%;
+//   -webkit-overflow-scrolling: touch;
+//   scrollbar-gutter: stable;
+
+//   &::-webkit-scrollbar {
+//     width: 6px;
+//     height: 6px;
+//   }
+
+//   &::-webkit-scrollbar-track {
+//     background: transparent;
+//   }
+
+//   &::-webkit-scrollbar-thumb {
+//     background-color: $outline-variant;
+//     border-radius: 9999px;
+//   }
+// }
+
+// ul {
+//   list-style: none;
+//   margin: 0;
+//   padding: 0;
+
+//   li.menu-headline {
+//     > a {
+//       color: $headline-color;
+//       font-size: $font-size;
+//       font-weight: $font-weight;
+//       letter-spacing: $letter-spacing;
+//       min-height: 52px;
+//       pointer-events: none;
+//     }
+//   }
+// }
+// }
+
+// --------------------------------------------------------------------------
+// 3. Primary Menu Lists (.ul-menu)
+// --------------------------------------------------------------------------
+// .ul-menu {
+//   display: flex;
+//   flex-direction: column;
+
+//   li {
+//     position: relative;
+
+//     > a {
+//       position: relative;
+//       display: flex;
+//       align-items: center;
+//       gap: 0.5rem;
+//       min-height: 48px;
+//       padding-left: 16px;
+//       letter-spacing: $letter-spacing;
+//       text-decoration: none;
+//       color: $on-surface-variant;
+//       font-weight: $font-weight;
+//       font-size: $font-size;
+//       border-radius: 8px;
+//       box-sizing: border-box;
+//       line-height: $line-height;
+//       transition:
+//         background-color 0.2s cubic-bezier(0.2, 0, 0, 1),
+//         color 0.2s cubic-bezier(0.2, 0, 0, 1);
+
+// &:active {
+//   color: #1D1B20;
+//   background-color: rgba(29, 27, 32, 0.08);
+// }
+
+//     i {
+//       font-size: 1.5rem;
+//     }
+
+//     &:hover {
+//       color: $primary; // Resalta con el azul primario al pasar el mouse
+//     }
+//   }
+
+//   &.current-menu-item > a {
+//     color: $active-color;
+//     font-weight: $active-font-weight;
+//     background-color: $active-indicator;
+//   }
+// }
+
+// li.drawer-divider {
+//   height: 1px;
+//   background-color: $outline-variant;
+//   border: none;
+//   margin: 0.1rem 1rem;
+//   list-style: none;
+
+//   a {
+//     display: none !important;
+//   }
+// }
+
+// li.menu-item-has-children {
+//   @include grid($columns: 1fr auto, $align: center, $justify: space-between);
+
+//   > a {
+//     grid-column: 1 / 2;
+//     width: 100%;
+//   }
+
+// &::after {
+//   grid-column: 2 / 3;
+//   grid-row: 1 / 2;
+//   text-align: end;
+//   content: "\F229";
+//   font-family: "bootstrap-icons";
+//   font-size: $font-size;
+//   display: inline-flex;
+//   align-items: center;
+//   justify-content: center;
+//   width: 40px;
+//   height: 40px;
+//   // margin-right: 8px;
+//   margin-inline: 8px;
+//   border-radius: 50%;
+//   cursor: pointer;
+//   transition:
+//     transform $menu-transition,
+//     color 0.2s ease,
+//     background-color 0.2s ease;
+
+//   &:hover {
+//     background-color: $primary;
+//   }
+// }
+
+// @include media-breakpoint-down(lg) {
+//   &.open {
+//     &::after {
+//       transform: rotate(180deg);
+//       color: $primary;
+//       margin-inline: 8px;
+//     }
+
+//     > .sub-menu {
+//       opacity: 1;
+//       visibility: visible;
+//       max-height: 500px;
+//     }
+//   }
+// }
+
+// @include media-breakpoint-up(lg) {
+//   &:hover {
+//     &::after {
+//       transform: rotate(180deg);
+//       color: $primary;
+//     }
+
+//     > .sub-menu {
+//       opacity: 1;
+//       visibility: visible;
+//     }
+//   }
+// }
+// }
+
+// Submenús anidados generales (Menú Principal)
+//   li.menu-item-has-children .sub-menu {
+//     grid-column: 1/-1;
+//     position: static;
+//     width: 100%;
+//     min-width: 100%;
+//     background-color: transparent;
+//     max-height: 0;
+//     overflow: hidden;
+//     padding-left: 1rem;
+//     box-sizing: border-box;
+//     transition: max-height $menu-sub-transition;
+
+//     li > a .bi {
+//       display: none;
+//     }
+//   }
+// }
 
 // --------------------------------------------------------------------------
 // 4. Slide-in Megamenu Panels (.is-megamenu)
 // --------------------------------------------------------------------------
-.is-megamenu {
-  position: static !important;
+// .is-megamenu {
+//   position: static !important;
 
-  @include media-breakpoint-down(lg) {
-    &.open > .sub-menu {
-      max-height: none !important;
-      opacity: 1 !important;
-      visibility: visible !important;
-      transform: translateX(0) !important;
-    }
-  }
+//   @include media-breakpoint-down(lg) {
+//     &.open > .sub-menu {
+//       max-height: none !important;
+//       opacity: 1 !important;
+//       visibility: visible !important;
+//       transform: translateX(0) !important;
+//     }
+//   }
 
-  > .sub-menu {
-    border: none;
-    position: absolute !important;
-    top: 0 !important;
-    left: 0 !important;
-    z-index: 1001;
-    width: 100% !important;
-    height: 100% !important;
-    background-color: $surface-container !important;
-    color: $on-surface;
-    box-sizing: border-box;
-    overflow-y: auto !important;
-    padding: 1rem 0.75rem max(24px, env(safe-area-inset-bottom)) 0.75rem;
-    opacity: 0;
-    visibility: hidden;
-    transform: translateX(-100%);
-    will-change: transform, opacity;
-    transition:
-      transform $menu-transition,
-      opacity $menu-transition,
-      visibility $menu-transition;
+//   > .sub-menu {
+//     border: none;
+//     position: absolute !important;
+//     top: 0 !important;
+//     left: 0 !important;
+//     z-index: 1001;
+//     width: 100% !important;
+//     height: 100% !important;
+//     background-color: $surface-container !important;
+//     color: $on-surface;
+//     box-sizing: border-box;
+//     overflow-y: auto !important;
+//     padding: 1rem 0.75rem max(24px, env(safe-area-inset-bottom)) 0.75rem;
+//     opacity: 0;
+//     visibility: hidden;
+//     transform: translateX(-100%);
+//     will-change: transform, opacity;
+//     transition:
+//       transform $menu-transition,
+//       opacity $menu-transition,
+//       visibility $menu-transition;
 
-    // overflow: hidden;
+//     // overflow: hidden;
 
-    .is-megamenu.open & {
-      opacity: 1;
-      visibility: visible;
-      transform: translateX(0);
-    }
+//     .is-megamenu.open & {
+//       opacity: 1;
+//       visibility: visible;
+//       transform: translateX(0);
+//     }
 
-    .megamenu-back-btn {
-      position: absolute !important;
-      top: 0 !important;
-      left: 0 !important;
-      display: inline-flex;
-      align-items: center;
-      gap: 12px;
-      background: transparent;
-      border: none;
-      color: var(--bs-body-color);
-      font-weight: 600;
-      font-size: 1rem;
-      padding: 0 16px;
-      width: 100%;
-      min-height: $min-height-toolbar;
-      cursor: pointer;
-      border-bottom: 1px solid rgba(var(--bs-body-color-rgb), 0.08);
-      transition:
-        background-color 0.2s ease,
-        color 0.2s ease;
+//     .megamenu-back-btn {
+//       position: absolute !important;
+//       top: 0 !important;
+//       left: 0 !important;
+//       display: inline-flex;
+//       align-items: center;
+//       gap: 12px;
+//       background: transparent;
+//       border: none;
+//       color: var(--bs-body-color);
+//       font-weight: 600;
+//       font-size: 1rem;
+//       padding: 0 16px;
+//       width: 100%;
+//       min-height: $min-height-toolbar;
+//       cursor: pointer;
+//       border-bottom: 1px solid rgba(var(--bs-body-color-rgb), 0.08);
+//       transition:
+//         background-color 0.2s ease,
+//         color 0.2s ease;
 
-      &:hover {
-        color: $primary;
-        background-color: $primary;
-      }
+//       &:hover {
+//         color: $primary;
+//         background-color: $primary;
+//       }
 
-      i {
-        font-size: 1.2rem;
-      }
-    }
-  }
-}
+//       i {
+//         font-size: 1.2rem;
+//       }
+//     }
+//   }
+// }

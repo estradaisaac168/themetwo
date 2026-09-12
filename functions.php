@@ -220,6 +220,7 @@ function themetwo_scripts() {
     );
 
 	wp_enqueue_script( 'themetwo-navigation', get_template_directory_uri() . '/js/navigation.js', array(), _S_VERSION, true );
+	wp_enqueue_script( 'themetwo-jquery', get_template_directory_uri() . '/js/jquery.js', array(), _S_VERSION, true );
 	wp_enqueue_script( 'themetwo-main-script', get_template_directory_uri() . '/js/main.js', array(), _S_VERSION, true );
 
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {

@@ -1,15 +1,30 @@
-// =============================================================================
-// BOOTSTRAP VARIABLES MAPPED TO MATERIAL DESIGN 3 (M3) RAW VALUES
-// =============================================================================
+// ==========================================
+// 1. TUS VARIABLES GLOBALES Y SISTEMA M3
+// ==========================================
+$primary: #0061a4; // Azul primario profundo M3
+$primary-container: #d1e4ff; // NUEVA: Fondo de la píldora activa M3
+$secondary: #535f70; // Azul grisáceo secundario
+$success: #10b981; // Éxito armonizado
+$warning: #f59e0b; // Advertencia
+$danger: #ba1a1a; // M3 Error color
+$light: #f0f4f8; // Superficie container principal
+$dark: #111e2c; // Texto principal azul ultra oscuro
 
-$primary: #6750a4;          // M3 Primary Container / Action color
-$secondary: #625b71;        // M3 Secondary tone
-$success: #10b981;          // Éxito armonizado con el sistema
-$warning: #f59e0b;          // Advertencia estandarizada
-$danger: #b3261e;           // M3 Error color
-$light: #f7f2fa;            // M3 Surface Container Low (Fondos claros y sutiles)
-$dark: #1d1b20;             // M3 On Background / Texto principal oscuro
+$body-bg: #f8fafc; // Fondo general del sitio
+$body-color: $primary; // Color base para acentos
 
-$body-bg: #fef7ff;          // M3 Background (Tonalidad neutra base muy suave)
-$body-color: #7e4ec5;       // M3 On Background (Color de texto general legible)
-// $body-color: #1d1b20;       // M3 On Background (Color de texto general legible)
+
+
+
+// Superficies para tarjetas, contenedores y paneles
+$surface: #ffffff;
+$surface-container-low: #f8fafc;
+$surface-container: #f0f4f8;
+$surface-container-high: #e2e8f0;
+
+// Roles de Texto e Iconos (On-X Colors)
+$on-background: $dark;
+$on-surface: #1e293b;
+$on-surface-variant: $secondary;
+$outline: #94a3b8;
+$outline-variant: #cbd5e1;
